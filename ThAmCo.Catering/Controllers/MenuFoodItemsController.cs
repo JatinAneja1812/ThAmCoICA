@@ -20,27 +20,6 @@ namespace ThAmCo.Catering.Controllers
             _context = context;
         }
 
-        // GET: api/MenuFoodItems
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetMenuFoodItems()
-        {
-            return await _context.MenuFoodItems.ToListAsync();
-        }
-
-        // GET: api/MenuFoodItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MenuFoodItem>> GetMenuFoodItem(int id)
-        {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
-
-            if (menuFoodItem == null)
-            {
-                return NotFound();
-            }
-
-            return menuFoodItem;
-        }
-
         // PUT: api/MenuFoodItems/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
