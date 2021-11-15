@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 namespace ThAmCo.Events.Models
 {
     public class GuestBooking
-    {
+    { 
     }
 }

@@ -20,36 +20,12 @@ namespace ThAmCo.Catering.Controllers
             _context = context;
         }
 
-        // PUT: api/MenuFoodItems/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenuFoodItem(int id, MenuFoodItem menuFoodItem)
+
+        // GET:api/MenuFoodItems
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetFoodItems()
         {
-            if (id != menuFoodItem.MenuId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(menuFoodItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MenuFoodItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await _context.MenuFoodItems.ToListAsync();
         }
 
         // POST: api/MenuFoodItems
@@ -59,23 +35,9 @@ namespace ThAmCo.Catering.Controllers
         public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItem menuFoodItem)
         {
             _context.MenuFoodItems.Add(menuFoodItem);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (MenuFoodItemExists(menuFoodItem.MenuId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.MenuId }, menuFoodItem);
+            await _context.SaveChangesAsync();
+        
+            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.MenuId });
         }
 
         // DELETE: api/MenuFoodItems/5
