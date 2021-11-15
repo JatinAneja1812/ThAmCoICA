@@ -42,9 +42,10 @@ namespace ThAmCo.Catering.Controllers
 
         // DELETE: api/MenuFoodItems/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MenuFoodItem>> DeleteMenuFoodItem(int id)
+        public async Task<ActionResult<MenuFoodItem>> DeleteMenuFoodItem(int menuid , int fooditemid)
         {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
+
+            var menuFoodItem = await _context.MenuFoodItems.FindAsync(fooditemid);
             if (menuFoodItem == null)
             {
                 return NotFound();
