@@ -24,7 +24,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FoodItem>>> GetFoodItems()
         {
-            return await _context.FoodItems.Include(x => x.foodItms).ToListAsync();
+            return await _context.FoodItems.ToListAsync();
         }
 
 

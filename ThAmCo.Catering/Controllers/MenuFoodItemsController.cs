@@ -20,10 +20,9 @@ namespace ThAmCo.Catering.Controllers
             _context = context;
         }
 
-
-        // GET:api/MenuFoodItems
+        // GET: api/MenuFoodItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetFoodItems()
+        public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetMenuFoodItems()
         {
             return await _context.MenuFoodItems.ToListAsync();
         }
@@ -35,17 +34,30 @@ namespace ThAmCo.Catering.Controllers
         public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItem menuFoodItem)
         {
             _context.MenuFoodItems.Add(menuFoodItem);
-            await _context.SaveChangesAsync();
-        
-            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.MenuId });
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (MenuFoodItemExists(menuFoodItem.MenuId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.MenuId }, menuFoodItem);
         }
 
         // DELETE: api/MenuFoodItems/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MenuFoodItem>> DeleteMenuFoodItem(int menuid , int fooditemid)
+        public async Task<ActionResult<MenuFoodItem>> DeleteMenuFoodItem(int id)
         {
-
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(fooditemid);
+            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
             if (menuFoodItem == null)
             {
                 return NotFound();

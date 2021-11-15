@@ -15,6 +15,7 @@ namespace ThAmCo.Catering.DataModels
 
         [Required]
         public int MenuId { get; set; }
+  
         [Required]
         public int FoodItemId { get; set; }
 
