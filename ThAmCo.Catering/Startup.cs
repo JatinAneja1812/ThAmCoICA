@@ -28,8 +28,7 @@ namespace ThAmCo.Catering
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ThAmCo_CateringDBContext>(options =>
-           options.UseSqlServer(Configuration.GetConnectionString("CateringConnection")));
-
+            options.UseSqlServer(Configuration.GetConnectionString("CateringConnection")));
             services.AddControllers();
         }
 

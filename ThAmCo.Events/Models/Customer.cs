@@ -9,6 +9,20 @@ namespace ThAmCo.Events.Models
     public class Customer
     {
         public Customer(){}
+
+        public Customer(string fname, string lname, string email) : this()
+        {
+            FirstName = fname;
+            LastName = lname;
+            EmailId = email;
+        }
+        public Customer(string fname, string lname, long cellnumber, string email) :this()
+        {
+            FirstName = fname;
+            LastName = lname;
+            TelePhoneNumber = cellnumber;
+            EmailId = email;
+        }
         public int CustomerId { get; set; }
 
         [Required]
@@ -19,18 +33,11 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "TelePhone Numer")]
+        [Display(Name = "TelePhone Number")]
         public long TelePhoneNumber { get; set; }
 
-        public string EmailId { get; set; }
-
         [Required]
-        public string Address { get; set; }
-
-        [Display(Name = "Events's Date&Time")]
-        public DateTime EventdateTime { get; set; }
-
-
+        public string EmailId { get; set; }
 
 
     }

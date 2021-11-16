@@ -82,7 +82,7 @@ namespace ThAmCo.Catering.Controllers
             _context.FoodBookings.Add(foodBooking);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFoodBooking", new { id = foodBooking.FoodBookingId }, foodBooking);
+            return CreatedAtAction("GetFoodBooking", new { id = foodBooking.FoodBookingId }, foodBooking.FoodBookingId);
         }
 
         // DELETE: api/FoodBookings/5
