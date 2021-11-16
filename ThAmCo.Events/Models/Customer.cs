@@ -33,8 +33,9 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        
         [Display(Name = "TelePhone Number")]
-        public long TelePhoneNumber { get; set; }
+        public long? TelePhoneNumber { get; set; }
 
         [Required]
         public string EmailId { get; set; }
