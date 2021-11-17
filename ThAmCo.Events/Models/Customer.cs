@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace ThAmCo.Events.Models
             LastName = lname;
             EmailId = email;
         }
-        public Customer(string fname, string lname, string cellnumber, string email) :this()
+        public Customer(string fname, string lname, long cellnumber, string email) :this()
         {
             FirstName = fname;
             LastName = lname;
@@ -36,12 +35,12 @@ namespace ThAmCo.Events.Models
 
         
         [Display(Name = "TelePhone Number")]
-        public string ? TelePhoneNumber { get; set; }
+        public long? TelePhoneNumber { get; set; }
 
-        [Display(Name = "Email ID")]
         [Required]
         public string EmailId { get; set; }
- 
+
+
     }
 
    

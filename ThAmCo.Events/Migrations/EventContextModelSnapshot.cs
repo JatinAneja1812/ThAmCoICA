@@ -37,8 +37,8 @@ namespace ThAmCo.Events.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TelePhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("TelePhoneNumber")
+                        .HasColumnType("bigint");
 
                     b.HasKey("CustomerId");
 
@@ -51,7 +51,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "oliie_12star@gmail.com",
                             FirstName = "Ollie",
                             LastName = "Smith",
-                            TelePhoneNumber = "07293829323"
+                            TelePhoneNumber = 7293829323L
                         },
                         new
                         {
@@ -59,7 +59,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "i_amStacy20@gmail.com",
                             FirstName = "Stacy",
                             LastName = "Parks",
-                            TelePhoneNumber = "0724679809"
+                            TelePhoneNumber = 724679809L
                         },
                         new
                         {
@@ -67,14 +67,15 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "andrewpool1992@gmail.com",
                             FirstName = "Andrew",
                             LastName = "Pool",
-                            TelePhoneNumber = "07908789323"
+                            TelePhoneNumber = 7908789323L
                         },
                         new
                         {
                             CustomerId = 4,
                             EmailId = "n.Malendez200@gmail.com",
                             FirstName = "Neil",
-                            LastName = "Malendez"
+                            LastName = "Malendez",
+                            TelePhoneNumber = 0L
                         },
                         new
                         {
@@ -82,7 +83,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "Jennie.non.White200@gmail.com",
                             FirstName = "Jennie",
                             LastName = "White",
-                            TelePhoneNumber = "07668394322"
+                            TelePhoneNumber = 7668394322L
                         });
                 });
 #pragma warning restore 612, 618
