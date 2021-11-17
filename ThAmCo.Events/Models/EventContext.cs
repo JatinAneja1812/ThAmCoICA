@@ -26,7 +26,7 @@ namespace ThAmCo.Events.Models
                 new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", TelePhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
                 new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", TelePhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
                 new Customer { CustomerId = 4, FirstName = "Neil", LastName = "Malendez", EmailId = "n.Malendez200@gmail.com" },
-                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", TelePhoneNumber = "07668394322", EmailId = "Jennie.non.White200@gmail.com" }
+                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", TelePhoneNumber = "0766839432", EmailId = "Jennie.non.White200@gmail.com" }
                 );
 
         }
