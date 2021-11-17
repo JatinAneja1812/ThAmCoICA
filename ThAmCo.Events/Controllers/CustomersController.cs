@@ -24,9 +24,12 @@ namespace ThAmCo.Events.Controllers
             List<Customer> list = await _context.Customers.ToListAsync();
             foreach(Customer item in list)
             {
-                if (item.TelePhoneNumber == "0" || item.TelePhoneNumber == "" || item.TelePhoneNumber == null) {
+                if (item.TelePhoneNumber == "0" || item.TelePhoneNumber == "" || item.TelePhoneNumber == null)
+                {
+
                     item.TelePhoneNumber = "-";
                 }
+
             }
             
             return View(list) ;  
@@ -66,11 +69,12 @@ namespace ThAmCo.Events.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(customer.TelePhoneNumber == "0" || customer.TelePhoneNumber == "" || customer.TelePhoneNumber == null)
+                if (customer.TelePhoneNumber == "0" || customer.TelePhoneNumber == "" || customer.TelePhoneNumber == null)
                 {
                     customer.TelePhoneNumber = "-";
                 }
-                    _context.Add(customer);
+            
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

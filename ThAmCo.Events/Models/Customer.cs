@@ -36,11 +36,13 @@ namespace ThAmCo.Events.Models
         [Display(Name = "TelePhone Number")]
         public string TelePhoneNumber { get; set; }
 
+
         [Required]
+        [Display(Name = "Email ID")]
         public string EmailId { get; set; }
 
 
-    }
+    } 
 
    
 
