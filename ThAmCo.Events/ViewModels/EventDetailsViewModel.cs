@@ -4,23 +4,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ThAmCo.Events.EventDTOs;
+using ThAmCo.Events.Models;
 
-namespace ThAmCo.Events.Models
+namespace ThAmCo.Events.ViewModels
 {
-
-    public class Event
+    public class EventDetailsViewModel
     {
-        public Event()
-        {
 
-        }
         public int EventId { get; set; }
         public DateTime EventDateTime { get; set; }
 
         [Required]
         public string EventTitle { get; set; }
 
-        [MinLength(3), MaxLength(3)]
+        [Required]
+        public string EventTypeTitle { get; set; }
         public string EventTypeId { get; set; }
 
     }

@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211117224011_EventDataSeed")]
+    partial class EventDataSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ThAmCo.Events.EventDTOs.EventTypeDTO", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(3)")
-                        .HasMaxLength(3);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventTypeDTO");
-                });
 
             modelBuilder.Entity("ThAmCo.Events.Models.Customer", b =>
                 {
@@ -109,16 +96,32 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EventDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventTitle")
-                        .IsRequired()
+                    b.Property<string>("EventType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventTypeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(3)")
                         .HasMaxLength(3);
+
+                    b.Property<int>("FoodBookingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
 
@@ -128,16 +131,24 @@ namespace ThAmCo.Events.Migrations
                         new
                         {
                             EventId = 1,
+                            CustomerId = 0,
                             EventDateTime = new DateTime(2021, 2, 10, 9, 30, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Tannu weds mannu",
-                            EventTypeId = "WED"
+                            EventTypeId = "WED",
+                            FoodBookingId = 0,
+                            ReservationId = 0,
+                            StaffId = 0,
+                            Title = "Tannu weds mannu"
                         },
                         new
                         {
                             EventId = 2,
+                            CustomerId = 0,
                             EventDateTime = new DateTime(2021, 4, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Web apps and services ICA disscussion",
-                            EventTypeId = "MET"
+                            EventTypeId = "MET",
+                            FoodBookingId = 0,
+                            ReservationId = 0,
+                            StaffId = 0,
+                            Title = "Web apps and services ICA disscussion"
                         });
                 });
 
