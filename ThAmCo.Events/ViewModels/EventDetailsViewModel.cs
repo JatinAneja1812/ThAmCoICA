@@ -13,14 +13,18 @@ namespace ThAmCo.Events.ViewModels
     {
 
         public int EventId { get; set; }
-        public DateTime EventDateTime { get; set; }
+        
 
         [Required]
+        [Display(Name = "Event's Description")]
         public string EventTitle { get; set; }
 
         [Required]
+        [Display(Name = "Event's Type")]
         public string EventTypeTitle { get; set; }
         public string EventTypeId { get; set; }
+        [Display(Name = "Event's Date&Time")]
+        public DateTime EventDateTime { get; set; }
 
     }
 }

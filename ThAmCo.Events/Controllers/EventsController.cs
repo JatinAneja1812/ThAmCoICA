@@ -30,43 +30,31 @@ namespace ThAmCo.Events.Controllers
         // GET: EventTypeDTOController
         public async Task<ActionResult> Index()
         {
-            List<EventTypeDTO> eventTypes = new List<EventTypeDTO>();
+            List<EventTypeDTO> evtTps = new List<EventTypeDTO>();
 
             HttpResponseMessage response = await client.GetAsync("api/eventtypes");
-            //EventTitleViewModel employeeDeatailsViewModel;
-
-
-
+            //EventDetailsViewModel eventDetailViewModel;
             if (response.IsSuccessStatusCode)
             {
-                eventTypes = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
-                var eventContext = await _context.Event.ToListAsync();
+                evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
+                var evtcts = await _context.Event.ToListAsync();
 
-                var eventTitleViewModel = eventContext
-                .Join(eventTypes, et => et.EventTypeId, ec => ec.Id,
-                (eventContext, eventTypes) => new EventDetailsViewModel
+                var eventDetailViewModel = evtcts
+                .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
+                (evtcts, evtTps) => new EventDetailsViewModel
                 {
-                    EventId = eventContext.EventId,
-                    EventTitle = eventContext.EventTitle,
-                    EventDateTime = eventContext.EventDateTime,
-                    EventTypeTitle = eventTypes.Title
-
+                    EventId = evtcts.EventId,
+                    EventTitle = evtcts.EventTitle,
+                    EventDateTime = evtcts.EventDateTime,
+                    EventTypeTitle = evtTps.Title
                 });
-                return View(eventTitleViewModel);
+                return View(eventDetailViewModel);
             }
             else
             {
-
-                return View(null);
+                return BadRequest("Data didnot found");
             }
-
-
-
-
-
-
         }
-
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -89,15 +77,15 @@ namespace ThAmCo.Events.Controllers
         // GET: Events/Create
         public async Task<IActionResult> Create()
         {
-            List<EventTypeDTO> eventTypes = new List<EventTypeDTO>();
+            List<EventTypeDTO> evttps = new List<EventTypeDTO>();
 
             HttpResponseMessage response = await client.GetAsync("api/eventtypes");
             //EventTitleViewModel employeeDeatailsViewModel;
 
             if (response.IsSuccessStatusCode)
             {
-                eventTypes = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
-                ViewBag.data = eventTypes;
+                evttps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
+                ViewBag.data = evttps;
                 ViewData["EventType"] = new SelectList(ViewBag.data, "Id", "Title");
             }
 
@@ -109,7 +97,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventDateTime,EventTitle,EventTypeId")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventTypeId,EventDateTime")] Event @event)
         {
             if (ModelState.IsValid)
             {
