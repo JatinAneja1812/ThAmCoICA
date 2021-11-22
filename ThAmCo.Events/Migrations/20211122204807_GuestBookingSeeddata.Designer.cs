@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211122204807_GuestBookingSeeddata")]
+    partial class GuestBookingSeeddata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,11 +160,7 @@ namespace ThAmCo.Events.Migrations
 
                     b.HasKey("GuestBookingID");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("GuestBookings");
+                    b.ToTable("GuestBooking");
 
                     b.HasData(
                         new
@@ -324,21 +322,6 @@ namespace ThAmCo.Events.Migrations
                             LastName = "Sanon",
                             StaffType = "Photographer"
                         });
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.Models.GuestBooking", b =>
-                {
-                    b.HasOne("ThAmCo.Events.Models.Customer", "Customers")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThAmCo.Events.Models.Event", "Events")
-                        .WithMany("Guests")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

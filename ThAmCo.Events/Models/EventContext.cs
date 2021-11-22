@@ -13,7 +13,7 @@ namespace ThAmCo.Events.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Event> Event { get; set; }
-
+         public DbSet<GuestBooking> GuestBookings { get; set; }
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {
@@ -21,6 +21,18 @@ namespace ThAmCo.Events.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            //RelationShips
+
+            builder.Entity<GuestBooking>()
+                .HasOne(m => m.Customers) 
+                .WithMany()
+                .HasForeignKey(m => m.CustomerId);
+
+            builder.Entity<GuestBooking>()
+               .HasOne(m => m.Events)
+               .WithMany(g=> g.Guests)  
+               .HasForeignKey(m => m.EventId);
 
             // seed data
 
@@ -55,6 +67,15 @@ namespace ThAmCo.Events.Models
                 .HasData(
                 new Event { EventId = 1, EventTitle = "Tannu weds mannu",EventDateTime = new DateTime(2021, 2, 10, 9,30,0),EventTypeId = "WED"},
                 new Event { EventId = 2, EventTitle = "Web apps and services ICA disscussion", EventDateTime = new DateTime(2021, 4, 5, 11, 00, 0), EventTypeId = "MET" }
+                );
+
+            builder.Entity<GuestBooking>()
+                .HasData(
+                new GuestBooking {  GuestBookingID = 1, CustomerId = 2, EventId = 2 , GuestAttendence = "Yes"},
+                new GuestBooking { GuestBookingID = 2, CustomerId = 1, EventId = 1, GuestAttendence = "No"},
+                new GuestBooking { GuestBookingID = 3, CustomerId = 1, EventId = 2, GuestAttendence = "Yes"},
+                new GuestBooking { GuestBookingID = 4, CustomerId = 5, EventId = 1, GuestAttendence = "Yes"},
+                new GuestBooking {  GuestBookingID = 5, CustomerId = 3, EventId = 2 , GuestAttendence = "No"}
                 );
 
         }

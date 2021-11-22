@@ -131,6 +131,7 @@ namespace ThAmCo.Events.Controllers
             {
                 evttps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 ViewData["EventType"] = new SelectList(evttps, "Id", "Title", @event.EventTypeId);
+      
             }
             return View(@event);
         }
@@ -151,7 +152,9 @@ namespace ThAmCo.Events.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Entry(@event).State = EntityState.Modified;
+                    _context.Entry(@event).Property("EventDateTime").IsModified = false;
+                    //_context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
