@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.EventDTOs;
 
 namespace ThAmCo.Events.Models
 {
@@ -11,6 +12,7 @@ namespace ThAmCo.Events.Models
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staff { get; set; }
+        public DbSet<Event> Event { get; set; }
 
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
@@ -49,7 +51,15 @@ namespace ThAmCo.Events.Models
                 new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer" }
                 );
 
+            builder.Entity<Event>()
+                .HasData(
+                new Event { EventId = 1, EventTitle = "Tannu weds mannu",EventDateTime = new DateTime(2021, 2, 10, 9,30,0),EventTypeId = "WED"},
+                new Event { EventId = 2, EventTitle = "Web apps and services ICA disscussion", EventDateTime = new DateTime(2021, 4, 5, 11, 00, 0), EventTypeId = "MET" }
+                );
+
         }
+        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
+       
         
     }
 }

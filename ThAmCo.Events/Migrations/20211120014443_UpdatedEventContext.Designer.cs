@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211120014443_UpdatedEventContext")]
+    partial class UpdatedEventContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,13 +114,14 @@ namespace ThAmCo.Events.Migrations
                     b.Property<DateTime>("EventDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EventTypeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(3)")
                         .HasMaxLength(3);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
 
@@ -129,15 +132,15 @@ namespace ThAmCo.Events.Migrations
                         {
                             EventId = 1,
                             EventDateTime = new DateTime(2021, 2, 10, 9, 30, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Tannu weds mannu",
-                            EventTypeId = "WED"
+                            EventTypeId = "WED",
+                            Title = "Tannu weds mannu"
                         },
                         new
                         {
                             EventId = 2,
                             EventDateTime = new DateTime(2021, 4, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Web apps and services ICA disscussion",
-                            EventTypeId = "MET"
+                            EventTypeId = "MET",
+                            Title = "Web apps and services ICA disscussion"
                         });
                 });
 
