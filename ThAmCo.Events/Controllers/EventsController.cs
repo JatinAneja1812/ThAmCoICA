@@ -117,9 +117,20 @@ namespace ThAmCo.Events.Controllers
             }
 
             var @event = await _context.Event.FindAsync(id);
+
             if (@event == null)
             {
                 return NotFound();
+            }
+            List<EventTypeDTO> evttps = new List<EventTypeDTO>();
+
+            HttpResponseMessage response = await client.GetAsync("api/eventtypes");
+            //EventTitleViewModel employeeDeatailsViewModel;
+
+            if (response.IsSuccessStatusCode)
+            {
+                evttps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
+                ViewData["EventType"] = new SelectList(evttps, "Id", "Title", @event.EventTypeId);
             }
             return View(@event);
         }
@@ -129,7 +140,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventDateTime,EventTitle")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventDateTime,EventTypeId ")] Event @event)
         {
             if (id != @event.EventId)
             {

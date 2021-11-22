@@ -15,12 +15,14 @@ namespace ThAmCo.Events.Models
 
         }
         public int EventId { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true)]
         public DateTime EventDateTime { get; set; }
 
         [Required]
         public string EventTitle { get; set; }
 
-        [MinLength(3), MaxLength(3)]
+        //[MinLength(3), MaxLength(3)]
         public string EventTypeId { get; set; }
 
     }

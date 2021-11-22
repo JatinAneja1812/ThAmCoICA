@@ -23,6 +23,7 @@ namespace ThAmCo.Events.ViewModels
         [Display(Name = "Event's Type")]
         public string EventTypeTitle { get; set; }
         public string EventTypeId { get; set; }
+
         [Display(Name = "Event's Date&Time")]
         public DateTime EventDateTime { get; set; }
 

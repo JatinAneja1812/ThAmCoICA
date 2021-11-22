@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 namespace ThAmCo.Events.Models
 {
     public class GuestBooking
-    { 
+    {
+        public int GuestBookingID { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public int EventId { get; set; }
+
+        public string GuestAttendence { get; set; }
     }
 }
