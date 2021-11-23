@@ -24,7 +24,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetMenuFoodItems()
         {
-            return await _context.MenuFoodItems.ToListAsync();
+            return await _context.MenuFoodItems.Include(m=>m.Menu).Include(m=>m.FoodItem).ToListAsync();
         }
 
         // POST: api/MenuFoodItems
