@@ -41,6 +41,8 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Email ID")]
         public string EmailId { get; set; }
 
+        public string FullName { get { return FirstName + " " + LastName; } }
+
 
     } 
 

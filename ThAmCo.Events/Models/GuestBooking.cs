@@ -11,11 +11,14 @@ namespace ThAmCo.Events.Models
 
         public int CustomerId { get; set; }
 
+
         public int EventId { get; set; }
         
         public Event Events { get;set; }
 
         public Customer Customers { get; set; }
+
+        
         public string GuestAttendence { get; set; }
     }
 }

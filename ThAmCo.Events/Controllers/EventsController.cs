@@ -41,7 +41,7 @@ namespace ThAmCo.Events.Controllers
 
                 var eventDetailViewModel = evtcts
                 .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
-                (evtcts, evtTps) => new EventDetailsViewModel
+                (evtcts, evtTps) => new EventIndexViewModel
                 {
                     EventId = evtcts.EventId,
                     EventTitle = evtcts.EventTitle,
@@ -63,15 +63,31 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            EventDetailsViewModel eventsdetails = await _context.Event
+                .Select(m => new EventDetailsViewModel
+                {
+                     EventId = m.EventId,
+                     EventTitle = m.EventTitle,
+                     EventDateTime = m.EventDateTime,
+                     EventTypeId = m.EventTypeId
+                })
+            .FirstOrDefaultAsync(m => m.EventId == id);
+            
+            if (eventsdetails == null)
             {
                 return NotFound();
             }
+            
 
-            return View(@event);
+
+            var Guestbooking = await _context.GuestBookings.Where(m=>m.EventId == id).ToListAsync();
+
+
+            eventsdetails.GuestBookings = Guestbooking;
+
+            
+            eventsdetails.TotalGuestCount = Guestbooking.Count();
+            return View(eventsdetails);
         }
 
         // GET: Events/Create
