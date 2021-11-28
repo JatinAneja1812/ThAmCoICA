@@ -39,7 +39,7 @@ namespace ThAmCo.Events.Controllers
                 evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 var evtcts = await _context.Event.ToListAsync();
 
-                var eventDetailViewModel = evtcts
+                var eventIndexViewModel = evtcts
                 .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
                 (evtcts, evtTps) => new EventIndexViewModel
                 {
@@ -48,7 +48,7 @@ namespace ThAmCo.Events.Controllers
                     EventDateTime = evtcts.EventDateTime,
                     EventTypeTitle = evtTps.Title
                 });
-                return View(eventDetailViewModel);
+                return View(eventIndexViewModel);
             }
             else
             {
@@ -78,15 +78,12 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
             
-
-
-            var Guestbooking = await _context.GuestBookings.Where(m=>m.EventId == id).ToListAsync();
-
-
+            var Guestbooking = await _context.GuestBookings.Where(m=>m.EventId == id).Include(y=>y.Custs).ToListAsync();
             eventsdetails.GuestBookings = Guestbooking;
+            // returning appropriate guest list
+            eventsdetails.TotalGuestCount = Guestbooking.Count(); // returning count
 
-            
-            eventsdetails.TotalGuestCount = Guestbooking.Count();
+
             return View(eventsdetails);
         }
 

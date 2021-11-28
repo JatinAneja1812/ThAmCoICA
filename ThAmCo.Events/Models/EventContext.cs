@@ -25,7 +25,7 @@ namespace ThAmCo.Events.Models
             //RelationShips
 
             builder.Entity<GuestBooking>()
-                .HasOne(m => m.Customers) 
+                .HasOne(m => m.Custs) 
                 .WithMany()
                 .HasForeignKey(m => m.CustomerId);
 
@@ -38,11 +38,11 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Customer>()
                 .HasData(
-                new Customer { CustomerId = 1, FirstName = "Ollie" , LastName = "Smith" , TelePhoneNumber = "07293829323" , EmailId = "oliie_12star@gmail.com"  },
-                new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", TelePhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
-                new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", TelePhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
+                new Customer { CustomerId = 1, FirstName = "Ollie" , LastName = "Smith" , PhoneNumber = "07293829323" , EmailId = "oliie_12star@gmail.com"  },
+                new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", PhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
+                new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", PhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
                 new Customer { CustomerId = 4, FirstName = "Neil", LastName = "Malendez", EmailId = "n.Malendez200@gmail.com" },
-                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", TelePhoneNumber = "0766839432", EmailId = "Jennie.non.White200@gmail.com" }
+                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", PhoneNumber = "0766839432", EmailId = "Jennie.non.White200@gmail.com" }
                 );
 
             builder.Entity<Staff>()

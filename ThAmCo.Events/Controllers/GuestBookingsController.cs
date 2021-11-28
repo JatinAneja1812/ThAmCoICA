@@ -21,7 +21,7 @@ namespace ThAmCo.Events.Controllers
         // GET: GuestBookings
         public async Task<IActionResult> Index()
         {
-            var eventContext = _context.GuestBookings.Include(g => g.Customers).Include(g => g.Events);
+            var eventContext = _context.GuestBookings.Include(g => g.Custs).Include(g => g.Events);
             return View(await eventContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace ThAmCo.Events.Controllers
             }
 
             var guestBooking = await _context.GuestBookings
-                .Include(g => g.Customers)
+                .Include(g => g.Custs)
                 .Include(g => g.Events)
                 .FirstOrDefaultAsync(m => m.GuestBookingID == id);
             if (guestBooking == null)
@@ -135,7 +135,7 @@ namespace ThAmCo.Events.Controllers
             }
 
             var guestBooking = await _context.GuestBookings
-                .Include(g => g.Customers)
+                .Include(g => g.Custs)
                 .Include(g => g.Events)
                 .FirstOrDefaultAsync(m => m.GuestBookingID == id);
             if (guestBooking == null)

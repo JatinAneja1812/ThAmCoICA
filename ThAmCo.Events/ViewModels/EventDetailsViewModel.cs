@@ -19,9 +19,6 @@ namespace ThAmCo.Events.ViewModels
 
         public int TotalGuestCount { get; set; }
 
-       
         public IEnumerable<GuestBooking> GuestBookings { get; set; }
-        
-
     }
 }

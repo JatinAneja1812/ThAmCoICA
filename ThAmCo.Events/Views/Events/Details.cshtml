@@ -36,13 +36,13 @@
     <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-<h1>Guests</h1>
+<h3>Guests List</h3>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().CustomerId)
+                @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().Custs)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().GuestAttendence)
@@ -55,16 +55,13 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
+                @Html.DisplayFor(modelItem => item.Custs.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GuestAttendence)
             </td>
-
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GuestBookingID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GuestBookingID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GuestBookingID">Delete</a>
+                <input type="button" class="btn btn-group-toggle btn-link"  value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
             </td>
         </tr>
         }

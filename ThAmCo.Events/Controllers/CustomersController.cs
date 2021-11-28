@@ -22,17 +22,16 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> Index()
         {
             List<Customer> list = await _context.Customers.ToListAsync();
-            foreach(Customer item in list)
+            foreach (Customer item in list)
             {
-                if (item.TelePhoneNumber == "0" || item.TelePhoneNumber == "" || item.TelePhoneNumber == null)
+                if (item.PhoneNumber == "0" || item.PhoneNumber == "" || item.PhoneNumber == null)
                 {
-
-                    item.TelePhoneNumber = "-";
+                    item.PhoneNumber = "-";
                 }
 
             }
-            
-            return View(list) ;  
+            return View(list);
+
         }
 
         // GET: Customers/Details/5
@@ -69,9 +68,9 @@ namespace ThAmCo.Events.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (customer.TelePhoneNumber == "0" || customer.TelePhoneNumber == "" || customer.TelePhoneNumber == null)
+                if (customer.PhoneNumber == "0" || customer.PhoneNumber == "" || customer.PhoneNumber == null)
                 {
-                    customer.TelePhoneNumber = "-";
+                    customer.PhoneNumber = "-";
                 }
             
                 _context.Add(customer);
