@@ -40,9 +40,11 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
-                
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>|
+                <input type="button" class="btn btn-outline-primary" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
+
             </td>
+          
         </tr>
 }
     </tbody>

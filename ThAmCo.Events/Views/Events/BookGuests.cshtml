@@ -1,0 +1,29 @@
+﻿@model ThAmCo.Events.Models.Customer
+@{
+    ViewData["Title"] = "BookGuests";
+}
+
+<div class="text-center"
+    <h1>Event Guest Booking</h1>
+
+    @using(Html.BeginForm("BookGuests", "Events", FormMethod.Post))
+    {
+        <table cellpadding="2" cellspacing="3">
+            <tr>
+                <th colspan="2" align="center">Guest Email Address</th>
+            </tr>
+            <tr>
+                <td>Enter your EmailID:</td>
+                <td>
+                    @Html.TextBoxFor(m => m.EmailId ,"Enter your Email-Id", new { style="color:red" })
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit" /></td>
+            </tr>
+                    </table>
+            }
+
+            </div>

@@ -60,8 +60,18 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("GuestBookingID,CustomerId,EventId,GuestAttendence")] GuestBooking guestBooking)
         {
+
             if (ModelState.IsValid)
             {
+                var isGuestAlreadyExists = _context.GuestBookings.Include(x=>x.Custs).Any(x => x.CustomerId == guestBooking.CustomerId);
+                if (isGuestAlreadyExists)
+                {
+                    ModelState.AddModelError(string.Empty, "User with this Id already exists");
+                    ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
+                    ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", guestBooking.EventId);
+                    return View(guestBooking);
+                }
+
                 _context.Add(guestBooking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

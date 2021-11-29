@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +55,42 @@ namespace ThAmCo.Events.Controllers
                 return BadRequest("Data didnot found");
             }
         }
+
+        // GET: EventTypeDTOController
+        public ActionResult BookGuests()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult BookGuests(string emailId)
+        {
+            var getcustomerList = _context.Customers.ToList();
+            foreach (Customer C in getcustomerList)
+            {
+                if(C.EmailId == emailId)
+                {
+
+                    return RedirectToAction("Create","GuestBookings");
+                    break;
+                }
+                else
+                { 
+                    var msg = MessageBox.Show("This Guest Id Doesn't exists in our Guest list! Would you like to create New", "Guest Not Found??", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                    if (msg == MessageBoxResult.Cancel)
+                    {
+                        return View();
+                        
+                    }
+                    return RedirectToAction("Create", "Customers");
+                }
+            }
+            return View();
+                
+        }
+
+
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
