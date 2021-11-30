@@ -67,11 +67,13 @@ namespace ThAmCo.Events.Controllers
         public ActionResult BookGuests(string emailId)
         {
             var getcustomerList = _context.Customers.ToList();
+            ViewBag.data = getcustomerList;
+            ViewData["Email"] = new SelectList(ViewBag.data, "CustomerId", "EmailId",emailId.ToString());
             foreach (Customer C in getcustomerList)
             {
                 if(C.EmailId == emailId)
                 {
-
+                    
                     return RedirectToAction("Create","GuestBookings");
                     break;
                 }

@@ -53,6 +53,9 @@
                 @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().Events)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().Events.EventDateTime)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().GuestAttendence)
             </th>
             <th></th>
@@ -61,14 +64,17 @@
     <tbody>
         @foreach (var item in Model.GuestBookings)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Events.EventTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GuestAttendence)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Events.EventTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Events.EventDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuestAttendence)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
