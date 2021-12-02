@@ -164,7 +164,7 @@ namespace ThAmCo.Events.Controllers
             var guestBooking = await _context.GuestBookings.FindAsync(id);
             _context.GuestBookings.Remove(guestBooking);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Events");
         }
 
         private bool GuestBookingExists(int id)

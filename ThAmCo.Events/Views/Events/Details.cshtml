@@ -61,8 +61,10 @@
                 @Html.DisplayFor(modelItem => item.GuestAttendence)
             </td>
             <td>
-                <input type="button" class="btn btn-group-toggle btn-link"  value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
+                <input type="button" class="btn btn-group-toggle btn-link" value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />|
+                <input type="button" class="btn btn-group-toggle btn-link" value="Cancle Booking" onclick="@("window.location.href='" + @Url.Action("Delete", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
             </td>
+           
         </tr>
         }
     </tbody>

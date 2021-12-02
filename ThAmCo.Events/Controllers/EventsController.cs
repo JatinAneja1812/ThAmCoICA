@@ -92,9 +92,19 @@ namespace ThAmCo.Events.Controllers
                 
         }
 
+        public ActionResult BookaVenue()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult BookaVenue(string emailId)
+        {
 
-        // GET: Events/Details/5
+            return null;
+
+        }
+            // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
