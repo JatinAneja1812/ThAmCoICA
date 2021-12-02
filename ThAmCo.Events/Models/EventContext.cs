@@ -14,6 +14,7 @@ namespace ThAmCo.Events.Models
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Event> Event { get; set; }
          public DbSet<GuestBooking> GuestBookings { get; set; }
+        public DbSet<Staffing> Staffings { get; set; }
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {
@@ -34,6 +35,20 @@ namespace ThAmCo.Events.Models
                .WithMany(g=> g.Guests)  
                .HasForeignKey(m => m.EventId);
 
+            // Composite key
+            builder.Entity<Staffing>()
+                .HasKey(a => new { a.EventId, a.StaffId });
+
+            builder.Entity<Staffing>()
+                 .HasOne(m => m.Event)
+                 .WithMany()
+                 .HasForeignKey(m => m.EventId);
+
+            builder.Entity<Staffing>()
+               .HasOne(n => n.Staff)
+               .WithMany()
+               .HasForeignKey(n => n.StaffId);
+
             // seed data
 
             builder.Entity<Customer>()
@@ -47,20 +62,20 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Staff>()
                 .HasData(
-                new Staff {  Staffid = 1, FirstName ="Paulo" , LastName = "Marks", StaffType = "Waiter"},
-                new Staff { Staffid = 2, FirstName = "Mary", LastName = "Gibbs", StaffType = "Manager" },
-                new Staff { Staffid = 3, FirstName = "Kacy", LastName = "Holland", StaffType = "Wedding Planner" },
-                new Staff { Staffid = 4, FirstName = "Arvind", LastName = "Sharma", StaffType = "Bartender" },
-                new Staff { Staffid = 5, FirstName = "Raghav", LastName = "Kuma", StaffType = "Event Organiser" },
-                new Staff { Staffid = 6, FirstName = "Kyle", LastName = "Butler", StaffType = "Photographer" },
-                new Staff { Staffid = 7, FirstName = "Andy", LastName = "Angels", StaffType = "Caterer" },
-                new Staff { Staffid = 8, FirstName = "Mandy", LastName = "Green", StaffType = "DJ Music Mixer" },
-                new Staff { Staffid = 9, FirstName = "Sandy", LastName = "Geller", StaffType = "Waiter" },
-                new Staff { Staffid = 10, FirstName = "Barry", LastName = "Tribbiani", StaffType = "Waiter" },
-                new Staff { Staffid = 11, FirstName = "Penny", LastName = "Parks", StaffType = "Event Organiser" },
-                new Staff { Staffid = 12, FirstName = "Larc", LastName = "Meads", StaffType = "Caterer" },
-                new Staff { Staffid = 13, FirstName = "Garry", LastName = "James", StaffType = "Waiter" },
-                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer" }
+                new Staff {  Staffid = 1, FirstName ="Paulo" , LastName = "Marks", StaffType = "Waiter" , CheckAvailibility=true},
+                new Staff { Staffid = 2, FirstName = "Mary", LastName = "Gibbs", StaffType = "Manager", CheckAvailibility = true },
+                new Staff { Staffid = 3, FirstName = "Kacy", LastName = "Holland", StaffType = "Wedding Planner", CheckAvailibility = true },
+                new Staff { Staffid = 4, FirstName = "Arvind", LastName = "Sharma", StaffType = "Bartender", CheckAvailibility = false },
+                new Staff { Staffid = 5, FirstName = "Raghav", LastName = "Kuma", StaffType = "Event Organiser", CheckAvailibility = true },
+                new Staff { Staffid = 6, FirstName = "Kyle", LastName = "Butler", StaffType = "Photographer", CheckAvailibility = false },
+                new Staff { Staffid = 7, FirstName = "Andy", LastName = "Angels", StaffType = "Caterer", CheckAvailibility = false },
+                new Staff { Staffid = 8, FirstName = "Mandy", LastName = "Green", StaffType = "DJ Music Mixer", CheckAvailibility = true },
+                new Staff { Staffid = 9, FirstName = "Sandy", LastName = "Geller", StaffType = "Waiter", CheckAvailibility = true },
+                new Staff { Staffid = 10, FirstName = "Barry", LastName = "Tribbiani", StaffType = "Waiter", CheckAvailibility = true },
+                new Staff { Staffid = 11, FirstName = "Penny", LastName = "Parks", StaffType = "Event Organiser", CheckAvailibility = true },
+                new Staff { Staffid = 12, FirstName = "Larc", LastName = "Meads", StaffType = "Caterer", CheckAvailibility = false },
+                new Staff { Staffid = 13, FirstName = "Garry", LastName = "James", StaffType = "Waiter", CheckAvailibility = true },
+                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer", CheckAvailibility = true }
                 );
 
             builder.Entity<Event>()

@@ -34,5 +34,8 @@ namespace ThAmCo.Events.Models
         [Required]
         [Display(Name = "Staff's Title")]
         public string StaffType { get; set; }
+
+        [Display(Name = "Staff Availibility")]
+        public bool CheckAvailibility { get; set; }
     }
 }

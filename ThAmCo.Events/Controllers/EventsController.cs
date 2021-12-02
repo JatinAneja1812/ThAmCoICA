@@ -32,10 +32,12 @@ namespace ThAmCo.Events.Controllers
         {
             List<EventTypeDTO> evtTps = new List<EventTypeDTO>();
 
+            
             HttpResponseMessage response = await client.GetAsync("api/eventtypes");
             //EventDetailsViewModel eventDetailViewModel;
             if (response.IsSuccessStatusCode)
             {
+               
                 evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 var evtcts = await _context.Event.ToListAsync();
 
@@ -46,8 +48,9 @@ namespace ThAmCo.Events.Controllers
                     EventId = evtcts.EventId,
                     EventTitle = evtcts.EventTitle,
                     EventDateTime = evtcts.EventDateTime,
-                    EventTypeTitle = evtTps.Title
+                    EventTypeTitle = evtTps.Title,         
                 });
+
                 return View(eventIndexViewModel);
             }
             else
@@ -92,18 +95,6 @@ namespace ThAmCo.Events.Controllers
                 
         }
 
-        public ActionResult BookaVenue()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult BookaVenue(string emailId)
-        {
-
-            return null;
-
-        }
             // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -130,9 +121,7 @@ namespace ThAmCo.Events.Controllers
             eventsdetails.GuestBookings = Guestbooking;
             // returning appropriate guest list
             eventsdetails.TotalGuestCount = Guestbooking.Count(); // returning count
-
-
-            return View(eventsdetails);
+             return View(eventsdetails);
         }
 
         // GET: Events/Create

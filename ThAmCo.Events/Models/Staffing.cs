@@ -13,9 +13,9 @@ namespace ThAmCo.Events.Models
         [Required]
         public int EventId { get; set; }
 
-        public Event envent { get; set; }
+        public Event Event { get; set; }
 
-        public Staff staff { get; set; }
+        public Staff Staff { get; set; }
 
     }
 }

@@ -22,6 +22,6 @@ namespace ThAmCo.Events.EventDTOs
 
         public List<SuitabilityDTO> SuitableEventTypes { get; set; }
 
-        public List<AvailabilityDTO> AvailableDates { get; set; }
+     //   public List<AvailabilityDTO> AvailableDates { get; set; }
     }
 }

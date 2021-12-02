@@ -15,5 +15,6 @@ namespace ThAmCo.Events.EventDTOs
         [Required]
         public string Title { get; set; }
 
+      //  public List<SuitabilityDTO> SuitableVenues { get; set; }
     }
 }

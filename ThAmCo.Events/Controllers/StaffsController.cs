@@ -24,23 +24,7 @@ namespace ThAmCo.Events.Controllers
             return View(await _context.Staff.ToListAsync());
         }
 
-        // GET: Staffs/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.Staffid == id);
-            if (staff == null)
-            {
-                return NotFound();
-            }
-
-            return View(staff);
-        }
 
         // GET: Staffs/Create
         public IActionResult Create()
@@ -85,7 +69,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility")] Staff staff)
         {
             if (id != staff.Staffid)
             {

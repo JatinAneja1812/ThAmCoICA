@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.StaffType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckAvailibility)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,8 +40,11 @@
                 @Html.DisplayFor(modelItem => item.StaffType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Staffid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Staffid">Details</a> 
+                @Html.DisplayFor(modelItem => item.CheckAvailibility)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Staffid">Edit</a> 
+                
             </td>
         </tr>
 }

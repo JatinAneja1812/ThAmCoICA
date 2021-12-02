@@ -28,7 +28,8 @@ namespace ThAmCo.Venues.Controllers
                                     .Select(e => new
                                     {
                                         e.Id,
-                                        e.Title
+                                        e.Title,
+                                        e.SuitableVenues
                                     }).ToListAsync();
             return Ok(dto);
         }
