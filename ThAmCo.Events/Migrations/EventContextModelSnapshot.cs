@@ -53,7 +53,7 @@ namespace ThAmCo.Events.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TelePhoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
@@ -67,7 +67,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "oliie_12star@gmail.com",
                             FirstName = "Ollie",
                             LastName = "Smith",
-                            TelePhoneNumber = "07293829323"
+                            PhoneNumber = "07293829323"
                         },
                         new
                         {
@@ -75,7 +75,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "i_amStacy20@gmail.com",
                             FirstName = "Stacy",
                             LastName = "Parks",
-                            TelePhoneNumber = "0724679809"
+                            PhoneNumber = "0724679809"
                         },
                         new
                         {
@@ -83,7 +83,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "andrewpool1992@gmail.com",
                             FirstName = "Andrew",
                             LastName = "Pool",
-                            TelePhoneNumber = "07908789323"
+                            PhoneNumber = "07908789323"
                         },
                         new
                         {
@@ -98,7 +98,7 @@ namespace ThAmCo.Events.Migrations
                             EmailId = "Jennie.non.White200@gmail.com",
                             FirstName = "Jennie",
                             LastName = "White",
-                            TelePhoneNumber = "0766839432"
+                            PhoneNumber = "0766839432"
                         });
                 });
 
@@ -117,8 +117,7 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventTypeId")
-                        .HasColumnType("nvarchar(3)")
-                        .HasMaxLength(3);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EventId");
 
@@ -138,6 +137,68 @@ namespace ThAmCo.Events.Migrations
                             EventDateTime = new DateTime(2021, 4, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Web apps and services ICA disscussion",
                             EventTypeId = "MET"
+                        });
+                });
+
+            modelBuilder.Entity("ThAmCo.Events.Models.GuestBooking", b =>
+                {
+                    b.Property<int>("GuestBookingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GuestAttendence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GuestBookingID");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("GuestBookings");
+
+                    b.HasData(
+                        new
+                        {
+                            GuestBookingID = 1,
+                            CustomerId = 2,
+                            EventId = 2,
+                            GuestAttendence = "Yes"
+                        },
+                        new
+                        {
+                            GuestBookingID = 2,
+                            CustomerId = 1,
+                            EventId = 1,
+                            GuestAttendence = "No"
+                        },
+                        new
+                        {
+                            GuestBookingID = 3,
+                            CustomerId = 1,
+                            EventId = 2,
+                            GuestAttendence = "Yes"
+                        },
+                        new
+                        {
+                            GuestBookingID = 4,
+                            CustomerId = 5,
+                            EventId = 1,
+                            GuestAttendence = "Yes"
+                        },
+                        new
+                        {
+                            GuestBookingID = 5,
+                            CustomerId = 3,
+                            EventId = 2,
+                            GuestAttendence = "No"
                         });
                 });
 
@@ -263,6 +324,21 @@ namespace ThAmCo.Events.Migrations
                             LastName = "Sanon",
                             StaffType = "Photographer"
                         });
+                });
+
+            modelBuilder.Entity("ThAmCo.Events.Models.GuestBooking", b =>
+                {
+                    b.HasOne("ThAmCo.Events.Models.Customer", "Custs")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ThAmCo.Events.Models.Event", "Events")
+                        .WithMany("Guests")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

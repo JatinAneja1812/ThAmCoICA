@@ -13,7 +13,7 @@ namespace ThAmCo.Events.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Event> Event { get; set; }
-
+         public DbSet<GuestBooking> GuestBookings { get; set; }
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {
@@ -22,15 +22,27 @@ namespace ThAmCo.Events.Models
         {
             base.OnModelCreating(builder);
 
+            //RelationShips
+
+            builder.Entity<GuestBooking>()
+                .HasOne(m => m.Custs) 
+                .WithMany()
+                .HasForeignKey(m => m.CustomerId);
+
+            builder.Entity<GuestBooking>()
+               .HasOne(m => m.Events)
+               .WithMany(g=> g.Guests)  
+               .HasForeignKey(m => m.EventId);
+
             // seed data
 
             builder.Entity<Customer>()
                 .HasData(
-                new Customer { CustomerId = 1, FirstName = "Ollie" , LastName = "Smith" , TelePhoneNumber = "07293829323" , EmailId = "oliie_12star@gmail.com"  },
-                new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", TelePhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
-                new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", TelePhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
+                new Customer { CustomerId = 1, FirstName = "Ollie" , LastName = "Smith" , PhoneNumber = "07293829323" , EmailId = "oliie_12star@gmail.com"  },
+                new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", PhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
+                new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", PhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
                 new Customer { CustomerId = 4, FirstName = "Neil", LastName = "Malendez", EmailId = "n.Malendez200@gmail.com" },
-                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", TelePhoneNumber = "0766839432", EmailId = "Jennie.non.White200@gmail.com" }
+                new Customer { CustomerId = 5, FirstName = "Jennie", LastName = "White", PhoneNumber = "0766839432", EmailId = "Jennie.non.White200@gmail.com" }
                 );
 
             builder.Entity<Staff>()
@@ -55,6 +67,15 @@ namespace ThAmCo.Events.Models
                 .HasData(
                 new Event { EventId = 1, EventTitle = "Tannu weds mannu",EventDateTime = new DateTime(2021, 2, 10, 9,30,0),EventTypeId = "WED"},
                 new Event { EventId = 2, EventTitle = "Web apps and services ICA disscussion", EventDateTime = new DateTime(2021, 4, 5, 11, 00, 0), EventTypeId = "MET" }
+                );
+
+            builder.Entity<GuestBooking>()
+                .HasData(
+                new GuestBooking {  GuestBookingID = 1, CustomerId = 2, EventId = 2 , GuestAttendence = "Yes"},
+                new GuestBooking { GuestBookingID = 2, CustomerId = 1, EventId = 1, GuestAttendence = "No"},
+                new GuestBooking { GuestBookingID = 3, CustomerId = 1, EventId = 2, GuestAttendence = "Yes"},
+                new GuestBooking { GuestBookingID = 4, CustomerId = 5, EventId = 1, GuestAttendence = "Yes"},
+                new GuestBooking {  GuestBookingID = 5, CustomerId = 3, EventId = 2 , GuestAttendence = "No"}
                 );
 
         }

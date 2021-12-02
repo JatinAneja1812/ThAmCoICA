@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -39,16 +39,16 @@ namespace ThAmCo.Events.Controllers
                 evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 var evtcts = await _context.Event.ToListAsync();
 
-                var eventDetailViewModel = evtcts
+                var eventIndexViewModel = evtcts
                 .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
-                (evtcts, evtTps) => new EventDetailsViewModel
+                (evtcts, evtTps) => new EventIndexViewModel
                 {
                     EventId = evtcts.EventId,
                     EventTitle = evtcts.EventTitle,
                     EventDateTime = evtcts.EventDateTime,
                     EventTypeTitle = evtTps.Title
                 });
-                return View(eventDetailViewModel);
+                return View(eventIndexViewModel);
             }
             else
             {
@@ -56,22 +56,83 @@ namespace ThAmCo.Events.Controllers
             }
         }
 
-        // GET: Events/Details/5
+        // GET: EventTypeDTOController
+        public ActionResult BookGuests()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult BookGuests(string emailId)
+        {
+            var getcustomerList = _context.Customers.ToList();
+            ViewBag.data = getcustomerList;
+            ViewData["Email"] = new SelectList(ViewBag.data, "CustomerId", "EmailId",emailId.ToString());
+            foreach (Customer C in getcustomerList)
+            {
+                if(C.EmailId == emailId)
+                {
+                    
+                    return RedirectToAction("Create","GuestBookings");
+                    break;
+                }
+                else
+                { 
+                    var msg = MessageBox.Show("This Guest Id Doesn't exists in our Guest list! Would you like to create New", "Guest Not Found??", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                    if (msg == MessageBoxResult.Cancel)
+                    {
+                        return View();
+                        
+                    }
+                    return RedirectToAction("Create", "Customers");
+                }
+            }
+            return View();
+                
+        }
+
+        public ActionResult BookaVenue()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BookaVenue(string emailId)
+        {
+
+            return null;
+
+        }
+            // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            EventDetailsViewModel eventsdetails = await _context.Event
+                .Select(m => new EventDetailsViewModel
+                {
+                     EventId = m.EventId,
+                     EventTitle = m.EventTitle,
+                     EventDateTime = m.EventDateTime,
+                     EventTypeId = m.EventTypeId
+                })
+            .FirstOrDefaultAsync(m => m.EventId == id);
+            
+            if (eventsdetails == null)
             {
                 return NotFound();
             }
+            
+            var Guestbooking = await _context.GuestBookings.Where(m=>m.EventId == id).Include(y=>y.Custs).ToListAsync();
+            eventsdetails.GuestBookings = Guestbooking;
+            // returning appropriate guest list
+            eventsdetails.TotalGuestCount = Guestbooking.Count(); // returning count
 
-            return View(@event);
+
+            return View(eventsdetails);
         }
 
         // GET: Events/Create
@@ -131,6 +192,7 @@ namespace ThAmCo.Events.Controllers
             {
                 evttps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 ViewData["EventType"] = new SelectList(evttps, "Id", "Title", @event.EventTypeId);
+      
             }
             return View(@event);
         }
@@ -151,7 +213,9 @@ namespace ThAmCo.Events.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Entry(@event).State = EntityState.Modified;
+                    _context.Entry(@event).Property("EventDateTime").IsModified = false;
+                    //_context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

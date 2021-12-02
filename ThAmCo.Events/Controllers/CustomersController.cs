@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.ViewModels;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -22,17 +23,16 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> Index()
         {
             List<Customer> list = await _context.Customers.ToListAsync();
-            foreach(Customer item in list)
+            foreach (Customer item in list)
             {
-                if (item.TelePhoneNumber == "0" || item.TelePhoneNumber == "" || item.TelePhoneNumber == null)
+                if (item.PhoneNumber == "0" || item.PhoneNumber == "" || item.PhoneNumber == null)
                 {
-
-                    item.TelePhoneNumber = "-";
+                    item.PhoneNumber = "-";
                 }
 
             }
-            
-            return View(list) ;  
+            return View(list);
+
         }
 
         // GET: Customers/Details/5
@@ -43,14 +43,27 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
+            CustomerDetailsViewModel CustomerDeatils = await _context.Customers
+                .Select(m => new CustomerDetailsViewModel
+                {
+                    CustomerId = m.CustomerId,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    PhoneNumber = m.PhoneNumber,
+                    EmailId = m.EmailId
+                })
+            .FirstOrDefaultAsync(m => m.CustomerId == id);
+
+            if (CustomerDeatils == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            var Guestbooking = await _context.GuestBookings.Where(m => m.CustomerId == id).Include(y => y.Events).ToListAsync();
+            CustomerDeatils.GuestBookings = Guestbooking;
+
+
+            return View(CustomerDeatils);
         }
 
         // GET: Customers/Create
@@ -69,9 +82,9 @@ namespace ThAmCo.Events.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (customer.TelePhoneNumber == "0" || customer.TelePhoneNumber == "" || customer.TelePhoneNumber == null)
+                if (customer.PhoneNumber == "0" || customer.PhoneNumber == "" || customer.PhoneNumber == null)
                 {
-                    customer.TelePhoneNumber = "-";
+                    customer.PhoneNumber = "-";
                 }
             
                 _context.Add(customer);

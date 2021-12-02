@@ -1,4 +1,4 @@
-﻿@model ThAmCo.Events.Models.Event
+﻿@model ThAmCo.Events.ViewModels.EventDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,17 +10,23 @@
     <h4>Event</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EventTitle)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EventTitle)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EventDateTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EventDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalGuestCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalGuestCount)
         </dd>
 
 
@@ -30,3 +36,36 @@
     <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<h3>Guests List</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().Custs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestBookings.FirstOrDefault().GuestAttendence)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.GuestBookings)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Custs.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuestAttendence)
+            </td>
+            <td>
+                <input type="button" class="btn btn-group-toggle btn-link" value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />|
+                <input type="button" class="btn btn-group-toggle btn-link" value="Cancle Booking" onclick="@("window.location.href='" + @Url.Action("Delete", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
+            </td>
+           
+        </tr>
+        }
+    </tbody>
+</table>

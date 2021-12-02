@@ -25,5 +25,7 @@ namespace ThAmCo.Events.Models
         //[MinLength(3), MaxLength(3)]
         public string EventTypeId { get; set; }
 
+        public ICollection<GuestBooking> Guests { get; set; }
+
     }
 }
