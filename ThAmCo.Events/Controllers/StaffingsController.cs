@@ -53,6 +53,7 @@ namespace ThAmCo.Events.Controllers
                 staff.EventId = id.Value;
            
             ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle");
+            // only the staff having availibility == true
             ViewData["StaffId"] = new SelectList(_context.Staff.Where(x=>x.CheckAvailibility == true), "Staffid", "FullName");
             return View(staff);
         }
@@ -64,6 +65,8 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StaffId,EventId")] Staffing staffing)
         {
+            // staffing bind only contains event id and staffid :=> staff == null
+            //to change the availibilty of staff on run time
             Staff sft = _context.Staff.Where(x => x.Staffid.Equals(staffing.StaffId)).Single();
             try
             {
@@ -154,7 +157,7 @@ namespace ThAmCo.Events.Controllers
             var staffing = await _context.Staffings
                 .Include(s => s.Event)
                 .Include(s => s.Staff)
-                .FirstOrDefaultAsync(m => m.EventId == id);
+                .FirstOrDefaultAsync(m => m.StaffId == id);
             if (staffing == null)
             {
                 return NotFound();
@@ -166,9 +169,26 @@ namespace ThAmCo.Events.Controllers
         // POST: Staffings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var staffing = await _context.Staffings.FindAsync(id);
+            var getstaffid = await _context.Staffings.Where(x => x.StaffId == id).ToListAsync();
+
+            var staffing = await _context.Staffings.FindAsync(getstaffid.FirstOrDefault().EventId,id);
+            // staffing bind only contains event id and staffid :=> staff == null
+            //to change the availibilty of staff on run time
+            Staff sft = _context.Staff.Where(x => x.Staffid.Equals(staffing.StaffId)).Single();
+            try
+            {
+                if (staffing.Staff == null)
+                {
+                    staffing.Staff = sft;
+                }
+            }
+            catch (NullReferenceException)
+            {
+
+            }
+            staffing.Staff.CheckAvailibility = true;
             _context.Staffings.Remove(staffing);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

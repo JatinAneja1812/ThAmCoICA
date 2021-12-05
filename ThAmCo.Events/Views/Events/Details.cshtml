@@ -93,18 +93,21 @@
     <tbody>
         @foreach (var item in Model.Staffings)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Staff.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Staff.StaffType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Staff.CheckAvailibility)
-                </td>
-
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.StaffType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.CheckAvailibility)
+            </td>
+            <td>
+                <input type="button" class="btn btn-group-toggle btn-link" value="Remove-Staff" onclick="@("window.location.href='" + @Url.Action("Delete", "staffings", new { id = item.StaffId}) + "'");" />
+              
+            </td>
+        </tr>
         }
     </tbody>
 </table>
