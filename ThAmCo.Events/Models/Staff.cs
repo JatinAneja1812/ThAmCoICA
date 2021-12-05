@@ -31,6 +31,10 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Staff's Last Name")]
         public string LastName { get; set; }
 
+        
+        [Display(Name = "Staff's Full-Name")]
+        public string FullName { get { return FirstName + " " + LastName; }}
+
         [Required]
         [Display(Name = "Staff's Title")]
         public string StaffType { get; set; }

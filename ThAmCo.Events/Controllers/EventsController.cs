@@ -50,7 +50,7 @@ namespace ThAmCo.Events.Controllers
                     EventDateTime = evtcts.EventDateTime,
                     EventTypeTitle = evtTps.Title,         
                 });
-
+                
                 return View(eventIndexViewModel);
             }
             else
@@ -121,7 +121,11 @@ namespace ThAmCo.Events.Controllers
             eventsdetails.GuestBookings = Guestbooking;
             // returning appropriate guest list
             eventsdetails.TotalGuestCount = Guestbooking.Count(); // returning count
-             return View(eventsdetails);
+
+            // returning appropriate staffs list    // 
+            var staffs = await _context.Staffings.Where(m => m.EventId == id).Include(s=>s.Staff).Where(x => x.Staff.CheckAvailibility == false).ToListAsync();
+            eventsdetails.Staffings = staffs;
+            return View(eventsdetails);
         }
 
         // GET: Events/Create

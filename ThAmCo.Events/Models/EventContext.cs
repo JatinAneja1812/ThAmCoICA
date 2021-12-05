@@ -92,6 +92,18 @@ namespace ThAmCo.Events.Models
                 new GuestBooking { GuestBookingID = 4, CustomerId = 5, EventId = 1, GuestAttendence = "Yes"},
                 new GuestBooking {  GuestBookingID = 5, CustomerId = 3, EventId = 2 , GuestAttendence = "No"}
                 );
+            builder.Entity<Staffing>()
+                .HasData(
+                new Staffing { EventId = 1, StaffId = 1 },
+                new Staffing { EventId = 1, StaffId = 2 },
+                new Staffing { EventId = 1, StaffId = 3 },
+                new Staffing { EventId = 1, StaffId = 4 },
+                new Staffing { EventId = 2, StaffId = 7 },
+                new Staffing { EventId = 2, StaffId = 8 },
+                new Staffing { EventId = 2, StaffId = 12 },
+                new Staffing { EventId = 2, StaffId = 14 }
+                );
+
 
         }
         public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
