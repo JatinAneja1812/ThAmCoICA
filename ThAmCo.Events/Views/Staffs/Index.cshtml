@@ -43,10 +43,11 @@
                 @Html.DisplayFor(modelItem => item.CheckAvailibility)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Staffid">Edit</a> 
-                
+                <a asp-action="Edit" asp-route-id="@item.Staffid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Staffid">Details</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+

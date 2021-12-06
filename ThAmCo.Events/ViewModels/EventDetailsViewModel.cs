@@ -23,5 +23,7 @@ namespace ThAmCo.Events.ViewModels
 
         public IEnumerable<GuestBooking> GuestBookings { get; set; }
 
+        public IEnumerable<Staffing> Staffings { get; set; }
+
     }
 }

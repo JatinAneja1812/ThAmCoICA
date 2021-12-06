@@ -53,19 +53,62 @@
     <tbody>
         @foreach (var item in Model.GuestBookings)
         {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Custs.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GuestAttendence)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-group-toggle btn-link" value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />|
+                    <input type="button" class="btn btn-group-toggle btn-link" value="Cancle Booking" onclick="@("window.location.href='" + @Url.Action("Delete", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Staffs List</h3>
+
+<input type="button" class="btn btn-outline-primary my-2" value="Add-Staff" onclick="@("window.location.href='" + @Url.Action("Create", "Staffings", new { id = Model.EventId } ) + "'");" />
+         
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffings.FirstOrDefault().Staff.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffings.FirstOrDefault().Staff.StaffType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffings.FirstOrDefault().Staff.CheckAvailibility)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Staffings)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Custs.FullName)
+                @Html.DisplayFor(modelItem => item.Staff.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GuestAttendence)
+                @Html.DisplayFor(modelItem => item.Staff.StaffType)
             </td>
             <td>
-                <input type="button" class="btn btn-group-toggle btn-link" value="Edit Guest" onclick="@("window.location.href='" + @Url.Action("Edit", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />|
-                <input type="button" class="btn btn-group-toggle btn-link" value="Cancle Booking" onclick="@("window.location.href='" + @Url.Action("Delete", "GuestBookings", new { id = item.GuestBookingID }) + "'");" />
+                @Html.DisplayFor(modelItem => item.Staff.CheckAvailibility)
             </td>
-           
+            <td>
+                <input type="button" class="btn btn-group-toggle btn-link" value="Remove-Staff" onclick="@("window.location.href='" + @Url.Action("Delete", "staffings", new { id = item.StaffId}) + "'");" />
+              
+            </td>
         </tr>
         }
     </tbody>
 </table>
+

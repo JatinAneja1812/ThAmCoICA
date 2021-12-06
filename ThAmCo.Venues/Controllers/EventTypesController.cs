@@ -29,7 +29,6 @@ namespace ThAmCo.Venues.Controllers
                                     {
                                         e.Id,
                                         e.Title,
-                                        e.SuitableVenues
                                     }).ToListAsync();
             return Ok(dto);
         }
