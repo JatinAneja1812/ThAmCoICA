@@ -1,0 +1,36 @@
+﻿@model ThAmCo.Events.Models.GuestBooking
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>GuestBooking</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Events)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Events.EventTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Custs)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Custs.EmailId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GuestAttendence)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GuestAttendence)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GuestBookingID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace ThAmCo.Events.Models
         {
             FirstName = fname;
             LastName = lname;
-            TelePhoneNumber = cellnumber;
+            PhoneNumber = cellnumber;
             EmailId = email;
         }
         public int CustomerId { get; set; }
@@ -34,15 +33,16 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        
-        [Display(Name = "TelePhone Number")]
-        public string ? TelePhoneNumber { get; set; }
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
 
-        [Display(Name = "Email ID")]
         [Required]
+        [Display(Name = "Email ID")]
         public string EmailId { get; set; }
- 
-    }
+
+       
+        public string FullName { get { return FirstName + " " + LastName; } }
+    } 
 
    
 

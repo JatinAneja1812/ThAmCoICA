@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.ViewModels;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -22,14 +23,16 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> Index()
         {
             List<Customer> list = await _context.Customers.ToListAsync();
-            foreach(Customer item in list)
+            foreach (Customer item in list)
             {
-                if (item.TelePhoneNumber == "0" || item.TelePhoneNumber == "" || item.TelePhoneNumber == null) {
-                    item.TelePhoneNumber = "-";
+                if (item.PhoneNumber == "0" || item.PhoneNumber == "" || item.PhoneNumber == null)
+                {
+                    item.PhoneNumber = "-";
                 }
+
             }
-            
-            return View(list) ;  
+            return View(list);
+
         }
 
         // GET: Customers/Details/5
@@ -40,14 +43,27 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
+            CustomerDetailsViewModel CustomerDeatils = await _context.Customers
+                .Select(m => new CustomerDetailsViewModel
+                {
+                    CustomerId = m.CustomerId,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    PhoneNumber = m.PhoneNumber,
+                    EmailId = m.EmailId
+                })
+            .FirstOrDefaultAsync(m => m.CustomerId == id);
+
+            if (CustomerDeatils == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            var Guestbooking = await _context.GuestBookings.Where(m => m.CustomerId == id).Include(y => y.Events).ToListAsync();
+            CustomerDeatils.GuestBookings = Guestbooking;
+
+
+            return View(CustomerDeatils);
         }
 
         // GET: Customers/Create
@@ -66,11 +82,12 @@ namespace ThAmCo.Events.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(customer.TelePhoneNumber == "0" || customer.TelePhoneNumber == "" || customer.TelePhoneNumber == null)
+                if (customer.PhoneNumber == "0" || customer.PhoneNumber == "" || customer.PhoneNumber == null)
                 {
-                    customer.TelePhoneNumber = "-";
+                    customer.PhoneNumber = "-";
                 }
-                    _context.Add(customer);
+            
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -128,7 +145,7 @@ namespace ThAmCo.Events.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Delete/5
+        // GET: customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,23 +153,23 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var custs = await _context.Customers
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
+            if (custs == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(custs);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var custs = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(custs);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

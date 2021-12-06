@@ -14,11 +14,32 @@ namespace ThAmCo.Events.Models
 
         }
 
+        public Staff(string Fname , String Lname, String title)
+        {
+            FirstName = Fname;
+            LastName = Lname;
+            StaffType = title;
+        }
+
         public int Staffid { get; set; }
 
-        [Display(Name = "Staff's FullName")]
-        public string StaffFullName { get; set; }
+        [Required]
+        [Display(Name = "Staff's First Name")]
+        public string FirstName { get; set; }
 
-        public string Description { get; set; }
+        [Required]
+        [Display(Name = "Staff's Last Name")]
+        public string LastName { get; set; }
+
+        
+        [Display(Name = "Staff's Full-Name")]
+        public string FullName { get { return FirstName + " " + LastName; }}
+
+        [Required]
+        [Display(Name = "Staff's Title")]
+        public string StaffType { get; set; }
+
+        [Display(Name = "Staff Availibility")]
+        public bool CheckAvailibility { get; set; }
     }
 }
