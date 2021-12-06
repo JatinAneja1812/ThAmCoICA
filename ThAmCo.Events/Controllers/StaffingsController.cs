@@ -84,7 +84,7 @@ namespace ThAmCo.Events.Controllers
                 staffing.Staff.CheckAvailibility = false;
                 _context.Add(staffing);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Events", new { id = staffing.EventId });
             }
             ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", staffing.EventId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "Staffid", "FirstName", staffing.StaffId);
@@ -191,7 +191,7 @@ namespace ThAmCo.Events.Controllers
             staffing.Staff.CheckAvailibility = true;
             _context.Staffings.Remove(staffing);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","Events",new { id = staffing.EventId});
         }
 
         private bool StaffingExists(int id)

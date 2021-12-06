@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.ViewModels;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -24,7 +25,35 @@ namespace ThAmCo.Events.Controllers
             return View(await _context.Staff.ToListAsync());
         }
 
+        // GET: Events/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            StaffDetailsViewModel staffdetails = await _context.Staff
+                .Select(m => new StaffDetailsViewModel
+                {
+                     Staffid = m.Staffid,
+                     FirstName = m.FirstName,
+                     LastName = m.LastName,
+                     StaffType = m.StaffType,
+                     CheckAvailibility = m.CheckAvailibility  
+                })
+            .FirstOrDefaultAsync(m => m.Staffid == id);
 
+            if (staffdetails == null)
+            {
+                return NotFound();
+            }
+
+            var staffings = await _context.Staffings.Where(m => m.StaffId == id).Include(s=>s.Event).Include(s=>s.Staff).ToListAsync();
+            staffdetails.staffings = staffings;
+            // returning appropriate guest list
+            
+            return View(staffdetails);
+        }
 
         // GET: Staffs/Create
         public IActionResult Create()

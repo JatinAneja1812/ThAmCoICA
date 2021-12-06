@@ -145,6 +145,35 @@ namespace ThAmCo.Events.Controllers
             return View(customer);
         }
 
+        // GET: customers/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var custs = await _context.Customers
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            if (custs == null)
+            {
+                return NotFound();
+            }
+
+            return View(custs);
+        }
+
+        // POST: Events/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var custs = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(custs);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.CustomerId == id);
