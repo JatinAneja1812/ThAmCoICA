@@ -22,7 +22,7 @@ namespace ThAmCo.Venues.Controllers
             _context = context;
         }
 
-        // GET: api/Availability?eventType=X?beginDate=X&endDate=X
+        // GET: api/Availability?eventType=X&beginDate=X&endDate=X
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery, MinLength(3), MaxLength(3), Required] string eventType,
                                              [FromQuery, Required] DateTime beginDate,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -48,18 +49,19 @@ namespace ThAmCo.Events.Controllers
                     EventId = evtcts.EventId,
                     EventTitle = evtcts.EventTitle,
                     EventDateTime = evtcts.EventDateTime,
-                    EventTypeTitle = evtTps.Title,         
+                    EventTypeTitle = evtTps.Title,  
+                    EventTypeId = evtTps.Id
                 });
                 
                 return View(eventIndexViewModel);
             }
             else
             {
-                return BadRequest("Data didnot found");
+                return BadRequest("Data did not found");
             }
         }
 
-        // GET: EventTypeDTOController
+        // GET: EventController
         public ActionResult BookGuests()
         {
             return View();
@@ -76,9 +78,7 @@ namespace ThAmCo.Events.Controllers
             {
                 if(C.EmailId == emailId)
                 {
-                    
                     return RedirectToAction("Create","GuestBookings");
-                    break;
                 }
                 else
                 { 
@@ -94,6 +94,38 @@ namespace ThAmCo.Events.Controllers
             return View();
                 
         }
+
+        // GET: EventController
+        public async Task<ActionResult> BookVenues(string EventTypesid, DateTime begindate)
+        {
+            List<VenueDTO> venues = new List<VenueDTO>();
+            EventVenueAvailibilityCheckModel m = new EventVenueAvailibilityCheckModel();
+            m.EventTypeId = EventTypesid;
+            m.Getdate = begindate;
+
+            string[] format = {"s"};
+
+            for (int i = 0; i < format.Length; i++)
+            {
+                m.BeginDate = m.Getdate.ToString(format[i], DateTimeFormatInfo.InvariantInfo);
+            }
+            for (int j = 0; j < format.Length; j++)
+            {
+                m.EndDate = m.Getdate.AddDays(1).ToString(format[j], DateTimeFormatInfo.InvariantInfo);
+
+            }
+            
+            HttpResponseMessage response = await client.GetAsync("api/Availability?eventType="+ m.EventTypeId+ "&beginDate="+ m.BeginDate+ "&endDate="+ m.EndDate);
+            if (response.IsSuccessStatusCode)
+            {
+                venues = await response.Content.ReadAsAsync<List<VenueDTO>>(); 
+            }
+            
+            return View(venues.ToList());
+        }
+
+  
+
 
             // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -125,6 +157,13 @@ namespace ThAmCo.Events.Controllers
             // returning appropriate staffs list    // 
             var staffs = await _context.Staffings.Where(m => m.EventId == id).Include(s=>s.Staff).Where(x => x.Staff.CheckAvailibility == false).ToListAsync();
             eventsdetails.Staffings = staffs;
+            //check whether name is already exists in the database or not
+           
+           
+            if (!eventsdetails.Staffings.FirstOrDefault().Staff.isFirstAider)
+            {
+                ModelState.AddModelError(string.Empty, "No First-Aider Staff is assigned to this Event!!");
+            }
             return View(eventsdetails);
         }
 

@@ -26,7 +26,10 @@ namespace ThAmCo.Events.ViewModels
         [Display(Name = "Staff Availibility")]
         public bool CheckAvailibility { get; set; }
 
-       // public IEnumerable<Event> Events { get; set; }
+        [Display(Name = "First-Aider")]
+        public bool isFirstAider { get; set; }
+
+        // public IEnumerable<Event> Events { get; set; }
 
         public IEnumerable<Staffing> staffings { get; set; }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211208203422_eventdateschange")]
+    partial class eventdateschange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,9 +226,6 @@ namespace ThAmCo.Events.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isFirstAider")
-                        .HasColumnType("bit");
-
                     b.HasKey("Staffid");
 
                     b.ToTable("Staff");
@@ -235,29 +234,26 @@ namespace ThAmCo.Events.Migrations
                         new
                         {
                             Staffid = 1,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Paulo",
                             LastName = "Marks",
-                            StaffType = "Waiter",
-                            isFirstAider = true
+                            StaffType = "Waiter"
                         },
                         new
                         {
                             Staffid = 2,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Mary",
                             LastName = "Gibbs",
-                            StaffType = "Manager",
-                            isFirstAider = true
+                            StaffType = "Manager"
                         },
                         new
                         {
                             Staffid = 3,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Kacy",
                             LastName = "Holland",
-                            StaffType = "Wedding Planner",
-                            isFirstAider = false
+                            StaffType = "Wedding Planner"
                         },
                         new
                         {
@@ -265,8 +261,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Arvind",
                             LastName = "Sharma",
-                            StaffType = "Bartender",
-                            isFirstAider = true
+                            StaffType = "Bartender"
                         },
                         new
                         {
@@ -274,17 +269,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Raghav",
                             LastName = "Kuma",
-                            StaffType = "Event Organiser",
-                            isFirstAider = false
+                            StaffType = "Event Organiser"
                         },
                         new
                         {
                             Staffid = 6,
-                            CheckAvailibility = true,
+                            CheckAvailibility = false,
                             FirstName = "Kyle",
                             LastName = "Butler",
-                            StaffType = "Photographer",
-                            isFirstAider = false
+                            StaffType = "Photographer"
                         },
                         new
                         {
@@ -292,17 +285,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Andy",
                             LastName = "Angels",
-                            StaffType = "Caterer",
-                            isFirstAider = false
+                            StaffType = "Caterer"
                         },
                         new
                         {
                             Staffid = 8,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Mandy",
                             LastName = "Green",
-                            StaffType = "DJ Music Mixer",
-                            isFirstAider = false
+                            StaffType = "DJ Music Mixer"
                         },
                         new
                         {
@@ -310,8 +301,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Sandy",
                             LastName = "Geller",
-                            StaffType = "Waiter",
-                            isFirstAider = false
+                            StaffType = "Waiter"
                         },
                         new
                         {
@@ -319,8 +309,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Barry",
                             LastName = "Tribbiani",
-                            StaffType = "Waiter",
-                            isFirstAider = true
+                            StaffType = "Waiter"
                         },
                         new
                         {
@@ -328,8 +317,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Penny",
                             LastName = "Parks",
-                            StaffType = "Event Organiser",
-                            isFirstAider = true
+                            StaffType = "Event Organiser"
                         },
                         new
                         {
@@ -337,8 +325,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Larc",
                             LastName = "Meads",
-                            StaffType = "Caterer",
-                            isFirstAider = false
+                            StaffType = "Caterer"
                         },
                         new
                         {
@@ -346,17 +333,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Garry",
                             LastName = "James",
-                            StaffType = "Waiter",
-                            isFirstAider = false
+                            StaffType = "Waiter"
                         },
                         new
                         {
                             Staffid = 14,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Kirti",
                             LastName = "Sanon",
-                            StaffType = "Photographer",
-                            isFirstAider = true
+                            StaffType = "Photographer"
                         });
                 });
 

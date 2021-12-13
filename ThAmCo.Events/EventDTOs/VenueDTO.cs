@@ -20,8 +20,12 @@ namespace ThAmCo.Events.EventDTOs
         [Range(1, Int32.MaxValue)]
         public int Capacity { get; set; }
 
-        public List<SuitabilityDTO> SuitableEventTypes { get; set; }
+        [Range(0.0, Double.MaxValue)]
+        public double CostPerHour { get; set; }
 
-     //   public List<AvailabilityDTO> AvailableDates { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+
+        public List<AvailabilityDTO> AvailableDates { get; set; }  // null
     }
 }
