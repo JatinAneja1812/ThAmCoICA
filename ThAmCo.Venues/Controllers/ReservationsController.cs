@@ -33,8 +33,7 @@ namespace ThAmCo.Venues.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>
-            CreateReservation([FromBody] ReservationPostDto reservation)
+        public async Task<IActionResult> CreateReservation([FromBody] ReservationPostDto reservation)
         {
             if (!ModelState.IsValid)
             {

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
 using ThAmCo.Events.EventDTOs;
 using ThAmCo.Events.Models;
 using ThAmCo.Events.ViewModels;
@@ -124,10 +126,53 @@ namespace ThAmCo.Events.Controllers
             return View(venues.ToList());
         }
 
-  
+        // GET: EventController
+        public async Task<ActionResult> ReserveVenue(VenueDTO rp)
+        {
+            ReservationPostDTO newResv = new ReservationPostDTO();
+            
+            newResv.VenueCode = rp.Code;
+            newResv.EventDate = rp.Date.Date;
+            newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager").ToListAsync();
+            ViewData["staff"] = new SelectList(newResv.allstaffs, "Staffid", "FullName");
+            newResv.StaffId = newResv.allstaffs.FirstOrDefault().Staffid.ToString();
+            return View(newResv);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReserveVenue([Bind("VenueCode,StaffId,EventDate")] ReservationPostDTO rp)
+        {
 
-            // GET: Events/Details/5
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var datestr = rp.EventDate.ToString("yyyy-MM-dd");
+                    List<ReservationDTO> reservations = new List<ReservationDTO>();
+                    StringContent contents = new StringContent(JsonConvert.SerializeObject(rp), Encoding.UTF8, "application/json");
+                    // HTTP POST
+                    HttpResponseMessage response = await client.PostAsync("api/Reservations", contents);
+                    
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string Json = await response.Content.ReadAsStringAsync();
+                        ReservationDTO records = JsonConvert.DeserializeObject<ReservationDTO>(Json);   // converting Json string to ReservationDTO object
+                        HttpResponseMessage responsetoReserve = await client.GetAsync("api/Reservations");
+                        
+                        
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -157,13 +202,18 @@ namespace ThAmCo.Events.Controllers
             // returning appropriate staffs list    // 
             var staffs = await _context.Staffings.Where(m => m.EventId == id).Include(s=>s.Staff).Where(x => x.Staff.CheckAvailibility == false).ToListAsync();
             eventsdetails.Staffings = staffs;
-            //check whether name is already exists in the database or not
-           
-           
-            if (!eventsdetails.Staffings.FirstOrDefault().Staff.isFirstAider)
+            if (eventsdetails.Staffings.Any(m=>m.Staff.isFirstAider == true))
+            {
+                ModelState.AddModelError(string.Empty, " First-Aider Staff is assigned to this Event!!");
+            }
+            else
             {
                 ModelState.AddModelError(string.Empty, "No First-Aider Staff is assigned to this Event!!");
             }
+
+            //check whether first aider  is exists in the event or not
+
+
             return View(eventsdetails);
         }
 
