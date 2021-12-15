@@ -41,10 +41,11 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |  
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
                 <a></a>
-                <input type="button" class="btn btn-outline-primary mx-3" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
-
+                <input type="button" class="btn btn-outline-primary mx-0" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
+                <a></a>|
+                <input type="button" class="btn btn-outline-primary mx-0" value="AvailableVenues" onclick="@("window.location.href='" + @Url.Action("BookVenues", "Events",new { EventTypesid = item.EventTypeId, begindate = item.EventDateTime, eventid = item.EventId}) + "'");" />
             </td>
 
         </tr>
