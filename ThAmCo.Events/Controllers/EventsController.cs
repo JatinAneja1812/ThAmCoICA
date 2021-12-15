@@ -185,15 +185,6 @@ namespace ThAmCo.Events.Controllers
                         @event.Name = rp.Name.ToString();
                         @event.CostPerHour = rp.CostPerHour;
                         @event.Capacity = rp.Capacity;
-                        //v.Add(new VenueDTO
-                        //{
-                        //    Capacity = rp.Capacity,
-                        //    Name = rp.Name,
-                        //    CostPerHour = rp.CostPerHour,
-                        //    Description = rp.Description,
-                        //    Code = rp.Code
-                        //});
-                        //@event.EventVenues = v;
                         try
                         {
                             _context.Update(@event);
