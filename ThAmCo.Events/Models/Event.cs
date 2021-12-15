@@ -28,7 +28,7 @@ namespace ThAmCo.Events.Models
 
         public string ReservationId { get; set; }
 
-        public ICollection<VenueDTO> EventVenues { get; set; }
+        //public ICollection<VenueDTO> EventVenues { get; set; }
 
         public string Description { get; set; }
 
