@@ -15,6 +15,7 @@ namespace ThAmCo.Events.Models
         public DbSet<Event> Event { get; set; }
         public DbSet<GuestBooking> GuestBookings { get; set; }
         public DbSet<Staffing> Staffings { get; set; }
+        public DbSet<VenueDTO> VenueDb { get; set; }
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {

@@ -27,7 +27,20 @@ namespace ThAmCo.Events.Models
         public string EventTypeId { get; set; }
 
         public string ReservationId { get; set; }
-      //  public VenueDTO EventVenue { get; set; }
+
+        public ICollection<VenueDTO> EventVenues { get; set; }
+
+        public string Description { get; set; }
+
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+
+        public double? CostPerHour { get; set; }
+
+        public int? Capacity { get; set; }
+
+        public bool IsDeleted { get; set; }
         public ICollection<GuestBooking> Guests { get; set; }
 
     }

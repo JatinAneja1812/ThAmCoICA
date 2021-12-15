@@ -43,7 +43,7 @@ namespace ThAmCo.Events.Controllers
             {
                
                 evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
-                var evtcts = await _context.Event.ToListAsync();
+                var evtcts = await _context.Event.Where(r => !r.IsDeleted).ToListAsync();
 
                 var eventIndexViewModel = evtcts
                 .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
@@ -137,11 +137,22 @@ namespace ThAmCo.Events.Controllers
         public async Task<ActionResult> ReserveVenue(VenueDTO rp)
         {
             ReservationPostDTO newResv = new ReservationPostDTO();
+            List<VenueDTO> v = new List<VenueDTO>();
+            v.Add(new VenueDTO
+            {
+                Capacity = rp.Capacity,
+                Name = rp.Name,
+                CostPerHour = rp.CostPerHour,
+                Description = rp.Description,
+                Date = rp.Date,
+                Code = rp.Code
+            });
             
+           
             newResv.VenueCode = rp.Code;
             newResv.EventDate = rp.Date.Date;
             newResv.EventID = rp.EventId;
-            //newResv.Venue = rp;
+            newResv.Venue = v; 
             newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager").ToListAsync();
             ViewData["staff"] = new SelectList(newResv.allstaffs, "Staffid", "FullName");
             newResv.StaffId = newResv.allstaffs.FirstOrDefault().Staffid.ToString();
@@ -150,9 +161,9 @@ namespace ThAmCo.Events.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReserveVenue([Bind("VenueCode,StaffId,EventDate,EventID")] ReservationPostDTO rp)
+        public async Task<IActionResult> ReserveVenue([Bind("VenueCode,StaffId,EventDate,EventID,Description,Code,CostPerHour,Capacity,Name")] ReservationPostDTO rp)
         {
-
+            //List<VenueDTO> v = new List<VenueDTO>();
             if (ModelState.IsValid)
             {
                 try
@@ -169,7 +180,20 @@ namespace ThAmCo.Events.Controllers
                         // finding Key ReservationId to update with Reference of reservation
                         var @event = await _context.Event.FindAsync(rp.EventID);
                         @event.ReservationId = records.Reference;
-                     //   @event.EventVenue = rp.Venue;
+                        @event.Code = rp.Code.ToString();
+                        @event.Description = rp.Description.ToString();
+                        @event.Name = rp.Name.ToString();
+                        @event.CostPerHour = rp.CostPerHour;
+                        @event.Capacity = rp.Capacity;
+                        //v.Add(new VenueDTO
+                        //{
+                        //    Capacity = rp.Capacity,
+                        //    Name = rp.Name,
+                        //    CostPerHour = rp.CostPerHour,
+                        //    Description = rp.Description,
+                        //    Code = rp.Code
+                        //});
+                        //@event.EventVenues = v;
                         try
                         {
                             _context.Update(@event);
@@ -204,7 +228,11 @@ namespace ThAmCo.Events.Controllers
                      EventTitle = m.EventTitle,
                      EventDateTime = m.EventDateTime,
                      EventTypeId = m.EventTypeId,
-                     ReservationID = m.ReservationId
+                     ReservationID = m.ReservationId,
+                     Name = m.Name,
+                     Description = m.Description,
+                     Capacity = m.Capacity,
+                     CostPerHour = m.CostPerHour 
                       
                 })
             .FirstOrDefaultAsync(m => m.EventId == id);
@@ -337,6 +365,7 @@ namespace ThAmCo.Events.Controllers
                 {
                     _context.Entry(@event).State = EntityState.Modified;
                     _context.Entry(@event).Property("EventDateTime").IsModified = false;
+                    _context.Entry(@event).Property("EventTypeId").IsModified = false;
                     //_context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
@@ -380,7 +409,22 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            string resId = @event.ReservationId;
+             // if there is any venue alloted to the Event
+            if (resId != null) { 
+
+            HttpResponseMessage response = await client.DeleteAsync("api/Reservations/" + @event.ReservationId);
+            if (response.IsSuccessStatusCode)
+            {
+                @event.Name = null;
+                @event.Code = null;
+                @event.Description = null;
+                @event.Capacity = null;
+                @event.CostPerHour = null;
+                @event.ReservationId = null;
+            }
+            }
+            @event.IsDeleted = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -19,12 +19,21 @@ namespace ThAmCo.Events.EventDTOs
         [Required, MinLength(5), MaxLength(5)]
         public string VenueCode { get; set; }
 
-    //    public VenueDTO Venue { get; set; }
+        public List<VenueDTO> Venue { get; set; }
 
         public IEnumerable<Staff> allstaffs { get; set; }
         [Required]
         [Display(Name = "Staff's Name")]
         public string StaffId { get; set; }
 
+        // passing the venue deatils with the reservation
+        public string Description { get; set; }
+
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+
+        public int Capacity { get; set; }
+        public double CostPerHour { get; set; }
     }
 }

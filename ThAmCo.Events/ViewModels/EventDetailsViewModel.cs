@@ -23,7 +23,15 @@ namespace ThAmCo.Events.ViewModels
         public string  ReservationID { get; set; }
 
 
-        public IEnumerable<VenueDTO> VenueDTO { get; set; }
+        public string Description { get; set; }
+
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+
+        public double? CostPerHour { get; set; }
+
+        public int? Capacity { get; set; }
         public IEnumerable<ReservationDTO> Reservation { get; set; }
         public IEnumerable<GuestBooking> GuestBookings { get; set; }
 

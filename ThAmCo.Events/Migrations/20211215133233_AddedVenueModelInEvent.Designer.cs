@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211215133233_AddedVenueModelInEvent")]
+    partial class AddedVenueModelInEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,14 +144,8 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Capacity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("CostPerHour")
-                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -163,9 +159,6 @@ namespace ThAmCo.Events.Migrations
 
                     b.Property<string>("EventTypeId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -183,16 +176,14 @@ namespace ThAmCo.Events.Migrations
                             EventId = 1,
                             EventDateTime = new DateTime(2021, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Jammie Weds Quinn ",
-                            EventTypeId = "WED",
-                            IsDeleted = false
+                            EventTypeId = "WED"
                         },
                         new
                         {
                             EventId = 2,
                             EventDateTime = new DateTime(2021, 11, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Web apps ICA Final Report Discussion",
-                            EventTypeId = "MET",
-                            IsDeleted = false
+                            EventTypeId = "MET"
                         });
                 });
 
