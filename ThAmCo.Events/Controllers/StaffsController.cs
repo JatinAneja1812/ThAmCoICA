@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.ViewModels;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -24,28 +25,43 @@ namespace ThAmCo.Events.Controllers
             return View(await _context.Staff.ToListAsync());
         }
 
-        // GET: Staffs/Details/5
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            StaffDetailsViewModel staffdetails = await _context.Staff
+                .Select(m => new StaffDetailsViewModel
+                {
+                     Staffid = m.Staffid,
+                     FirstName = m.FirstName,
+                     LastName = m.LastName,
+                     StaffType = m.StaffType,
+                     CheckAvailibility = m.CheckAvailibility,
+                     isFirstAider = m.isFirstAider
+                })
+            .FirstOrDefaultAsync(m => m.Staffid == id);
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.Staffid == id);
-            if (staff == null)
+            if (staffdetails == null)
             {
                 return NotFound();
             }
 
-            return View(staff);
+            var staffings = await _context.Staffings.Where(m => m.StaffId == id).Include(s=>s.Event).Include(s=>s.Staff).ToListAsync();
+            staffdetails.staffings = staffings;
+            // returning appropriate guest list
+            
+            return View(staffdetails);
         }
 
         // GET: Staffs/Create
         public IActionResult Create()
         {
-            return View();
+            Staff s = new Staff();
+            s.CheckAvailibility = true;
+            return View(s);
         }
 
         // POST: Staffs/Create
@@ -53,10 +69,11 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staffid,FirstName,LastName,StaffType")] Staff staff)
+        public async Task<IActionResult> Create([Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility,isFirstAider")] Staff staff)
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(staff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,7 +102,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility")] Staff staff)
         {
             if (id != staff.Staffid)
             {

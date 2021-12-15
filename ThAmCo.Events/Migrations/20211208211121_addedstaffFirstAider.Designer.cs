@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211208211121_addedstaffFirstAider")]
+    partial class addedstaffFirstAider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,39 +34,6 @@ namespace ThAmCo.Events.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EventTypeDTO");
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.EventDTOs.VenueDTO", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<double>("CostPerHour")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("VenueDb");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Models.Customer", b =>
@@ -142,18 +111,6 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("CostPerHour")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EventDateTime")
                         .HasColumnType("datetime2");
 
@@ -164,15 +121,6 @@ namespace ThAmCo.Events.Migrations
                     b.Property<string>("EventTypeId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReservationId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("EventId");
 
                     b.ToTable("Event");
@@ -181,18 +129,16 @@ namespace ThAmCo.Events.Migrations
                         new
                         {
                             EventId = 1,
-                            EventDateTime = new DateTime(2021, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Jammie Weds Quinn ",
-                            EventTypeId = "WED",
-                            IsDeleted = false
+                            EventDateTime = new DateTime(2021, 11, 1, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            EventTitle = "Tannu weds mannu",
+                            EventTypeId = "WED"
                         },
                         new
                         {
                             EventId = 2,
                             EventDateTime = new DateTime(2021, 11, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Web apps ICA Final Report Discussion",
-                            EventTypeId = "MET",
-                            IsDeleted = false
+                            EventTitle = "Web apps and services ICA disscussion",
+                            EventTypeId = "MET"
                         });
                 });
 
@@ -471,13 +417,6 @@ namespace ThAmCo.Events.Migrations
                             EventId = 2,
                             StaffId = 14
                         });
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.EventDTOs.VenueDTO", b =>
-                {
-                    b.HasOne("ThAmCo.Events.Models.Event", null)
-                        .WithMany("EventVenues")
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Models.GuestBooking", b =>

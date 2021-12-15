@@ -3,39 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ThAmCo.Events.Models;
 
-namespace ThAmCo.Events.Models
+namespace ThAmCo.Events.ViewModels
 {
-    public class Staff
+    public class StaffDetailsViewModel 
     {
-
-        public Staff()
-        {
-
-        }
-
-        public Staff(string Fname , String Lname, String title)
-        {
-            FirstName = Fname;
-            LastName = Lname;
-            StaffType = title;
-        }
-
         public int Staffid { get; set; }
-
-        [Required]
+ 
         [Display(Name = "Staff's First Name")]
         public string FirstName { get; set; }
 
-        [Required]
         [Display(Name = "Staff's Last Name")]
         public string LastName { get; set; }
 
-        
         [Display(Name = "Staff's Full-Name")]
-        public string FullName { get { return FirstName + " " + LastName; }}
+        public string FullName { get { return FirstName + " " + LastName; } }
 
-        [Required]
         [Display(Name = "Staff's Title")]
         public string StaffType { get; set; }
 
@@ -44,5 +28,9 @@ namespace ThAmCo.Events.Models
 
         [Display(Name = "First-Aider")]
         public bool isFirstAider { get; set; }
+
+        // public IEnumerable<Event> Events { get; set; }
+
+        public IEnumerable<Staffing> staffings { get; set; }
     }
 }

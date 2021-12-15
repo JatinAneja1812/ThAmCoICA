@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20211202233514_addedStaffingsforEvents")]
+    partial class addedStaffingsforEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,39 +34,6 @@ namespace ThAmCo.Events.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EventTypeDTO");
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.EventDTOs.VenueDTO", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(5)")
-                        .HasMaxLength(5);
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<double>("CostPerHour")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("VenueDb");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Models.Customer", b =>
@@ -142,18 +111,6 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("CostPerHour")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EventDateTime")
                         .HasColumnType("datetime2");
 
@@ -164,15 +121,6 @@ namespace ThAmCo.Events.Migrations
                     b.Property<string>("EventTypeId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReservationId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("EventId");
 
                     b.ToTable("Event");
@@ -181,18 +129,16 @@ namespace ThAmCo.Events.Migrations
                         new
                         {
                             EventId = 1,
-                            EventDateTime = new DateTime(2021, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Jammie Weds Quinn ",
-                            EventTypeId = "WED",
-                            IsDeleted = false
+                            EventDateTime = new DateTime(2021, 2, 10, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            EventTitle = "Tannu weds mannu",
+                            EventTypeId = "WED"
                         },
                         new
                         {
                             EventId = 2,
-                            EventDateTime = new DateTime(2021, 11, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventTitle = "Web apps ICA Final Report Discussion",
-                            EventTypeId = "MET",
-                            IsDeleted = false
+                            EventDateTime = new DateTime(2021, 4, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventTitle = "Web apps and services ICA disscussion",
+                            EventTypeId = "MET"
                         });
                 });
 
@@ -280,9 +226,6 @@ namespace ThAmCo.Events.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isFirstAider")
-                        .HasColumnType("bit");
-
                     b.HasKey("Staffid");
 
                     b.ToTable("Staff");
@@ -291,29 +234,26 @@ namespace ThAmCo.Events.Migrations
                         new
                         {
                             Staffid = 1,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Paulo",
                             LastName = "Marks",
-                            StaffType = "Waiter",
-                            isFirstAider = true
+                            StaffType = "Waiter"
                         },
                         new
                         {
                             Staffid = 2,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Mary",
                             LastName = "Gibbs",
-                            StaffType = "Manager",
-                            isFirstAider = true
+                            StaffType = "Manager"
                         },
                         new
                         {
                             Staffid = 3,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Kacy",
                             LastName = "Holland",
-                            StaffType = "Wedding Planner",
-                            isFirstAider = false
+                            StaffType = "Wedding Planner"
                         },
                         new
                         {
@@ -321,8 +261,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Arvind",
                             LastName = "Sharma",
-                            StaffType = "Bartender",
-                            isFirstAider = true
+                            StaffType = "Bartender"
                         },
                         new
                         {
@@ -330,17 +269,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Raghav",
                             LastName = "Kuma",
-                            StaffType = "Event Organiser",
-                            isFirstAider = false
+                            StaffType = "Event Organiser"
                         },
                         new
                         {
                             Staffid = 6,
-                            CheckAvailibility = true,
+                            CheckAvailibility = false,
                             FirstName = "Kyle",
                             LastName = "Butler",
-                            StaffType = "Photographer",
-                            isFirstAider = false
+                            StaffType = "Photographer"
                         },
                         new
                         {
@@ -348,17 +285,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Andy",
                             LastName = "Angels",
-                            StaffType = "Caterer",
-                            isFirstAider = false
+                            StaffType = "Caterer"
                         },
                         new
                         {
                             Staffid = 8,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Mandy",
                             LastName = "Green",
-                            StaffType = "DJ Music Mixer",
-                            isFirstAider = false
+                            StaffType = "DJ Music Mixer"
                         },
                         new
                         {
@@ -366,8 +301,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Sandy",
                             LastName = "Geller",
-                            StaffType = "Waiter",
-                            isFirstAider = false
+                            StaffType = "Waiter"
                         },
                         new
                         {
@@ -375,8 +309,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Barry",
                             LastName = "Tribbiani",
-                            StaffType = "Waiter",
-                            isFirstAider = true
+                            StaffType = "Waiter"
                         },
                         new
                         {
@@ -384,8 +317,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Penny",
                             LastName = "Parks",
-                            StaffType = "Event Organiser",
-                            isFirstAider = true
+                            StaffType = "Event Organiser"
                         },
                         new
                         {
@@ -393,8 +325,7 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = false,
                             FirstName = "Larc",
                             LastName = "Meads",
-                            StaffType = "Caterer",
-                            isFirstAider = false
+                            StaffType = "Caterer"
                         },
                         new
                         {
@@ -402,17 +333,15 @@ namespace ThAmCo.Events.Migrations
                             CheckAvailibility = true,
                             FirstName = "Garry",
                             LastName = "James",
-                            StaffType = "Waiter",
-                            isFirstAider = false
+                            StaffType = "Waiter"
                         },
                         new
                         {
                             Staffid = 14,
-                            CheckAvailibility = false,
+                            CheckAvailibility = true,
                             FirstName = "Kirti",
                             LastName = "Sanon",
-                            StaffType = "Photographer",
-                            isFirstAider = true
+                            StaffType = "Photographer"
                         });
                 });
 
@@ -471,13 +400,6 @@ namespace ThAmCo.Events.Migrations
                             EventId = 2,
                             StaffId = 14
                         });
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.EventDTOs.VenueDTO", b =>
-                {
-                    b.HasOne("ThAmCo.Events.Models.Event", null)
-                        .WithMany("EventVenues")
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Models.GuestBooking", b =>

@@ -14,6 +14,5 @@ namespace ThAmCo.Events.EventDTOs
 
         [Required]
         public string Title { get; set; }
-
     }
 }

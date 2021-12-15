@@ -21,6 +21,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.StaffType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckAvailibility)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isFirstAider)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,10 +43,17 @@
                 @Html.DisplayFor(modelItem => item.StaffType)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.CheckAvailibility)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isFirstAider)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Staffid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Staffid">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.Staffid">Details</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+

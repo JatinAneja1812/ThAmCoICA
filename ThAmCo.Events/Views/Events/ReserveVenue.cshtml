@@ -1,0 +1,87 @@
+﻿@model ThAmCo.Events.EventDTOs.ReservationPostDTO
+
+@{
+    ViewData["Title"] = "ReserveVenue";
+}
+
+<h1>Reservation</h1>
+
+<h4>Venue for Event</h4>
+<hr />
+
+@foreach (var ven in Model.Venue)
+{
+    using (Html.BeginForm("ReserveVenue", "Events", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="EventID" />
+
+                    <input type="hidden" id="Description" name="Description" value="@ven.Description" class="form-control" />
+                    <input type="hidden" id="Code" name="Code" value="@ven.Code" class="form-control" />
+                    <input type="hidden" id="CostPerHour" name="CostPerHour" value="@ven.CostPerHour" class="form-control" />
+                    <input type="hidden" id="Capacity" name="Capacity" value="@ven.Capacity" class="form-control" />
+                    <input type="hidden" id="Name" name="Name" value="@ven.Name" class="form-control" />
+
+                    <div class="form-group">
+                        <label asp-for="VenueCode" class="control-label"></label>
+                        <input asp-for="VenueCode" class="form-control" />
+                        <span asp-validation-for="VenueCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StaffId" class="control-label"></label>
+                        <select asp-for="StaffId" class="form-control" asp-items="ViewBag.staff"></select>
+                        <span asp-validation-for="StaffId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EventDate" class="control-label"></label>
+                        @Html.EditorFor(x => x.EventDate, new { @class = "form-control" })
+                        <span asp-validation-for="EventDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Reserve-Booking" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+}
+
+@*@using (Html.BeginForm("ReserveVenue", "Events", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="EventID" />
+
+                <input type="hidden" asp-for="Venue" class="form-control" />
+
+                <div class="form-group">
+                    <label asp-for="VenueCode" class="control-label"></label>
+                    <input asp-for="VenueCode" class="form-control" />
+                    <span asp-validation-for="VenueCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StaffId" class="control-label"></label>
+                    <select asp-for="StaffId" class="form-control" asp-items="ViewBag.staff"></select>
+                    <span asp-validation-for="StaffId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EventDate" class="control-label"></label>
+                    @Html.EditorFor(x => x.EventDate, new { @class = "form-control" })
+                    <span asp-validation-for="EventDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Reserve-Booking" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}*@
+
+
+
+
