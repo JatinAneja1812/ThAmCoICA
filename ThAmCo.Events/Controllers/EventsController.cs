@@ -245,13 +245,19 @@ namespace ThAmCo.Events.Controllers
             //check whether first aider  is exists in the event or not
             if (eventsdetails.Staffings.Any(m=>m.Staff.isFirstAider == true))
             {
-                ModelState.AddModelError(string.Empty, " First-Aider Staff is assigned to this Event!!");
+              //  ModelState.AddModelError(string.Empty, " First-Aider Staff is assigned to this Event!!");
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "No First-Aider Staff is assigned to this Event!!");
             }
+            eventsdetails.GuestAssignedtoStaffCount = eventsdetails.TotalGuestCount / 10;
 
+            if (eventsdetails.GuestAssignedtoStaffCount >=1)
+            {
+                ModelState.AddModelError("GuestAssignedtoStaffCount", "Fewer than one member of staff per 10 guests assigned to this Event!!");
+
+            }
 
             // Getting Venuew Details:
             //1: Finding Reservation Through ReservationID/Reference\

@@ -20,6 +20,8 @@ namespace ThAmCo.Events.ViewModels
 
         public int TotalGuestCount { get; set; }
 
+        public int GuestAssignedtoStaffCount { get; set; }
+
         public string  ReservationID { get; set; }
 
 
