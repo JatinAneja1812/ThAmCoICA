@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ThAmCo.Events.EventDTOs;
 
 namespace ThAmCo.Events.Models
 {
@@ -24,6 +25,9 @@ namespace ThAmCo.Events.Models
 
         //[MinLength(3), MaxLength(3)]
         public string EventTypeId { get; set; }
+
+        public string ReservationId { get; set; }
+      //  public VenueDTO EventVenue { get; set; }
         public ICollection<GuestBooking> Guests { get; set; }
 
     }

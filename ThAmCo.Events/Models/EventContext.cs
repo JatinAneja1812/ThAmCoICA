@@ -80,8 +80,8 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Event>()
                 .HasData(
-                new Event { EventId = 1, EventTitle = "Tannu weds mannu",EventDateTime = new DateTime(2021, 11, 01, 9,30,0),EventTypeId = "WED"},
-                new Event { EventId = 2, EventTitle = "Web apps and services ICA disscussion", EventDateTime = new DateTime(2021, 11, 05, 11, 00, 0), EventTypeId = "MET" }
+                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ",EventDateTime = new DateTime(2021, 11, 02, 00,00,00),EventTypeId = "WED"},
+                new Event { EventId = 2, EventTitle = "Web apps ICA Final Report Discussion", EventDateTime = new DateTime(2021, 11, 05, 11, 00, 00), EventTypeId = "MET" }
                 );
 
             builder.Entity<GuestBooking>()

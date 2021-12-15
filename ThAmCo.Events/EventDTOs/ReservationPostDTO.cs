@@ -14,12 +14,17 @@ namespace ThAmCo.Events.EventDTOs
         [Required, DataType(DataType.Date)]
         public DateTime EventDate { get; set; }
 
+        public int? EventID { get; set; }
+
         [Required, MinLength(5), MaxLength(5)]
         public string VenueCode { get; set; }
+
+    //    public VenueDTO Venue { get; set; }
 
         public IEnumerable<Staff> allstaffs { get; set; }
         [Required]
         [Display(Name = "Staff's Name")]
         public string StaffId { get; set; }
+
     }
 }

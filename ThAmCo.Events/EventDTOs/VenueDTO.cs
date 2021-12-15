@@ -26,6 +26,6 @@ namespace ThAmCo.Events.EventDTOs
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        public List<AvailabilityDTO> AvailableDates { get; set; }  // null
+        public int? EventId { get; set; }
     }
 }
