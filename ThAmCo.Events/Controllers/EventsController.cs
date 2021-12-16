@@ -64,12 +64,12 @@ namespace ThAmCo.Events.Controllers
             }
         }
 
+
         // GET: EventController
         public ActionResult BookGuests()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult BookGuests(string emailId)
@@ -245,13 +245,19 @@ namespace ThAmCo.Events.Controllers
             //check whether first aider  is exists in the event or not
             if (eventsdetails.Staffings.Any(m=>m.Staff.isFirstAider == true))
             {
-                ModelState.AddModelError(string.Empty, " First-Aider Staff is assigned to this Event!!");
+              //  ModelState.AddModelError(string.Empty, " First-Aider Staff is assigned to this Event!!");
             }
             else
             {
                 ModelState.AddModelError(string.Empty, "No First-Aider Staff is assigned to this Event!!");
             }
+            eventsdetails.GuestAssignedtoStaffCount = eventsdetails.TotalGuestCount / 10;
 
+            if (eventsdetails.GuestAssignedtoStaffCount >=1)
+            {
+                ModelState.AddModelError("GuestAssignedtoStaffCount", "Fewer than one member of staff per 10 guests assigned to this Event!!");
+
+            }
 
             // Getting Venuew Details:
             //1: Finding Reservation Through ReservationID/Reference\
@@ -399,21 +405,35 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
+            var @event = await _context.Event.FindAsync(id); // event id
             string resId = @event.ReservationId;
-             // if there is any venue alloted to the Event
-            if (resId != null) { 
+            // if there is any venue alloted to the Event
+            var getstaffs = await _context.Staffings.Where(x => x.EventId == id).Include(s=>s.Staff).ToListAsync();
 
-            HttpResponseMessage response = await client.DeleteAsync("api/Reservations/" + @event.ReservationId);
-            if (response.IsSuccessStatusCode)
+            foreach (Staffing s in getstaffs)
             {
-                @event.Name = null;
-                @event.Code = null;
-                @event.Description = null;
-                @event.Capacity = null;
-                @event.CostPerHour = null;
-                @event.ReservationId = null;
+                s.Staff.CheckAvailibility = true;
+                _context.Staffings.Remove(s);
+                
             }
+            //var staffsinEvent = await _context.Staffings.FindAsync(getstaffid.FirstOrDefault().StaffId, id);
+            //_context.Staffings.Remove(staffsinEvent);
+            //staffsinEvent.Staff.CheckAvailibility = true;
+
+
+            if (resId != null) 
+            { 
+                HttpResponseMessage response = await client.DeleteAsync("api/Reservations/" + @event.ReservationId);
+                if (response.IsSuccessStatusCode)
+                {
+                    @event.Name = null;
+                    @event.Code = null;
+                    @event.Description = null;
+                    @event.Capacity = null;
+                    @event.CostPerHour = null;
+                    @event.ReservationId = null;
+                   
+                }
             }
             @event.IsDeleted = true;
             await _context.SaveChangesAsync();
