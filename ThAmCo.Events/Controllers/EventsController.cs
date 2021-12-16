@@ -64,12 +64,12 @@ namespace ThAmCo.Events.Controllers
             }
         }
 
+
         // GET: EventController
         public ActionResult BookGuests()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult BookGuests(string emailId)
