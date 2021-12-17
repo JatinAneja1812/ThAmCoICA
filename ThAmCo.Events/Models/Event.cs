@@ -41,6 +41,8 @@ namespace ThAmCo.Events.Models
         public int? Capacity { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public int? FoodBookingId { get; set; }
         public ICollection<GuestBooking> Guests { get; set; }
 
     }
