@@ -22,13 +22,16 @@ namespace ThAmCo.Events.Controllers
         private readonly EventContext _context;
 
 
-        HttpClient client;
+        HttpClient client, client2;
         public EventsController(EventContext context)
         {
             _context = context;
             client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:44352/");
+            client2 = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:44352/"); // Venue api localhost
+            client2.BaseAddress = new System.Uri("https://localhost:44387/"); // catering api localhost
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            client2.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
 
         // GET: EventTypeDTOController
@@ -44,7 +47,7 @@ namespace ThAmCo.Events.Controllers
                
                 evtTps = await response.Content.ReadAsAsync<List<EventTypeDTO>>();
                 var evtcts = await _context.Event.Where(r => !r.IsDeleted).ToListAsync();
-
+                var Guestbooking = await _context.GuestBookings.Where(m => m.EventId == evtcts.FirstOrDefault().EventId).Include(y => y.Custs).ToListAsync();
                 var eventIndexViewModel = evtcts
                 .Join(evtTps, et => et.EventTypeId, ec => ec.Id,
                 (evtcts, evtTps) => new EventIndexViewModel
@@ -52,10 +55,13 @@ namespace ThAmCo.Events.Controllers
                     EventId = evtcts.EventId,
                     EventTitle = evtcts.EventTitle,
                     EventDateTime = evtcts.EventDateTime,
-                    EventTypeTitle = evtTps.Title,  
-                    EventTypeId = evtTps.Id
-                });
-                
+                    EventTypeTitle = evtTps.Title,
+                    EventTypeId = evtTps.Id,
+                    TotalGuestcount = Guestbooking.Count(),
+                    FoodBookingId = evtcts.FoodBookingId
+                     
+
+                }) ;
                 return View(eventIndexViewModel);
             }
             else
@@ -223,7 +229,9 @@ namespace ThAmCo.Events.Controllers
                      Name = m.Name,
                      Description = m.Description,
                      Capacity = m.Capacity,
-                     CostPerHour = m.CostPerHour 
+                     CostPerHour = m.CostPerHour,
+                     FoodBooingId = m.FoodBookingId 
+
                       
                 })
             .FirstOrDefaultAsync(m => m.EventId == id);
@@ -256,7 +264,6 @@ namespace ThAmCo.Events.Controllers
             if (eventsdetails.GuestAssignedtoStaffCount >=1)
             {
                 ModelState.AddModelError("GuestAssignedtoStaffCount", "Fewer than one member of staff per 10 guests assigned to this Event!!");
-
             }
 
             // Getting Venuew Details:
@@ -269,6 +276,7 @@ namespace ThAmCo.Events.Controllers
                 string Json = await response.Content.ReadAsStringAsync();
                 records  = JsonConvert.DeserializeObject<ReservationDTO>(Json);
             }
+            // UPDATING  reservationDTO in EventdetailsviewModel
             reservation.Add(new ReservationDTO
             {
                 EventDate = records.EventDate,
@@ -278,6 +286,27 @@ namespace ThAmCo.Events.Controllers
                 StaffId = records.StaffId
             });
             eventsdetails.Reservation = reservation.ToList();
+
+
+            // Details for food Booking to an Event
+
+            List<FoodBookingDTO> Foodbooking = new List<FoodBookingDTO>();
+            HttpResponseMessage responsefoodbooking = await client2.GetAsync("api/FoodBookings");
+            List<MenuFoodItemsDTO> foods = new List<MenuFoodItemsDTO>();
+            HttpResponseMessage responseMenuFoods = await client2.GetAsync("api/MenuFoodItems");
+
+            if(responsefoodbooking.IsSuccessStatusCode){
+                Foodbooking = await responsefoodbooking.Content.ReadAsAsync<List<FoodBookingDTO>>();
+                eventsdetails.FoodBookings = Foodbooking.Where(m=>m.ClientReferenceId == id);
+            }
+            if (responseMenuFoods.IsSuccessStatusCode)
+            {
+                foods = await responseMenuFoods.Content.ReadAsAsync<List<MenuFoodItemsDTO>>();
+
+                if (eventsdetails.FoodBooingId != null) {
+                    eventsdetails.Foods = foods.Where(m => m.MenuId == eventsdetails.FoodBookings.FirstOrDefault().MenuId);
+                }
+            }
 
             return View(eventsdetails);
         }

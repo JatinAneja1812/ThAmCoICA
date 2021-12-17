@@ -27,28 +27,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventTypeTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDateTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
-                <a></a>
-                <input type="button" class="btn btn-outline-primary mx-0" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
-                <a></a>|
-                <input type="button" class="btn btn-outline-primary mx-0" value="AvailableVenues" onclick="@("window.location.href='" + @Url.Action("BookVenues", "Events",new { EventTypesid = item.EventTypeId, begindate = item.EventDateTime, eventid = item.EventId}) + "'");" />
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventTypeTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventDateTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
+                    <a></a>
+                    <input type="button" class="btn btn-outline-primary mx-0" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
+                    <a></a>|
+                    <input type="button" class="btn btn-outline-primary mx-0" value="AvailableVenues" onclick="@("window.location.href='" + @Url.Action("BookVenues", "Events",new { EventTypesid = item.EventTypeId, begindate = item.EventDateTime, eventid = item.EventId}) + "'");" />
+                    <a></a>|
+                    <input type="button" class="btn btn-outline-primary mx-0" value="BookAMenu" onclick="@("window.location.href='" + @Url.Action("Create", "FoodBookingDTO", new { ClientReferenceId = item.EventId, NumofGuests = item.TotalGuestcount }) + "'");" />
 
-        </tr>
-}
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>

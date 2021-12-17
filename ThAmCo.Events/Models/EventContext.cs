@@ -10,12 +10,21 @@ namespace ThAmCo.Events.Models
 {
     public class EventContext : DbContext
     {
+        // Context Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<GuestBooking> GuestBookings { get; set; }
         public DbSet<Staffing> Staffings { get; set; }
         public DbSet<VenueDTO> VenueDb { get; set; }
+
+        // DTOS
+        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.FoodBookingDTO> FoodBookingDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenusDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.FoodItemDTO> FoodItemDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenuFoodItems { get; set; }
+
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {
@@ -49,6 +58,20 @@ namespace ThAmCo.Events.Models
                .HasOne(n => n.Staff)
                .WithMany()
                .HasForeignKey(n => n.StaffId);
+
+            // from the api
+            builder.Entity<MenuFoodItemsDTO>()
+                .HasKey(a => new { a.MenuId, a.FoodItemId });
+
+            builder.Entity<MenuFoodItemsDTO>()
+                 .HasOne(m => m.Menu)
+                 .WithMany()
+                 .HasForeignKey(m => m.MenuId);
+
+            builder.Entity<MenuFoodItemsDTO>()
+               .HasOne(n => n.FoodItem)
+               .WithMany()
+               .HasForeignKey(n => n.FoodItemId);
 
             // seed data
 
@@ -107,8 +130,9 @@ namespace ThAmCo.Events.Models
 
 
         }
-        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
-       
-        
+        public DbSet<ThAmCo.Events.EventDTOs.MenuFoodItemsDTO> MenuFoodItemsDTO { get; set; }
+
+
+
     }
 }
