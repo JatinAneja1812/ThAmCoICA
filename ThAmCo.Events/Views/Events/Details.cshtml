@@ -5,7 +5,7 @@
 }
 
 <h1>Details</h1>
-
+<body style="background-color: lavender">
 <div>
     <h4>Event</h4>
     <hr />
@@ -41,8 +41,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FoodBooingId)
         </dd>
-
-        <dt><h3>Venue Details</h3></dt>
+        <h3 class="border-primary">Venue Details</h3>
         <dd class="col-sm-10"> </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -203,3 +202,4 @@
     </tbody>
 </table>
 }
+    </body>

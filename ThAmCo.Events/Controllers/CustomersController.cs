@@ -28,8 +28,8 @@ namespace ThAmCo.Events.Controllers
                 if (item.PhoneNumber == "0" || item.PhoneNumber == "" || item.PhoneNumber == null)
                 {
                     item.PhoneNumber = "-";
-                }
-
+                }// Data Annotation could be either be performed in Customers Model
+                // [DisplayFormat(NullDisplayText = "-")]
             }
             return View(list);
 
@@ -146,6 +146,7 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: customers/Delete/5
+        // Deleting Customers from the root
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

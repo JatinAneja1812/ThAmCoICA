@@ -38,8 +38,6 @@ namespace ThAmCo.Events.Controllers
         public async Task<ActionResult> Index()
         {
             List<EventTypeDTO> evtTps = new List<EventTypeDTO>();
-
-            
             HttpResponseMessage response = await client.GetAsync("api/eventtypes");
             //EventDetailsViewModel eventDetailViewModel;
             if (response.IsSuccessStatusCode)

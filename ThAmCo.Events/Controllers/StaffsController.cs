@@ -73,7 +73,6 @@ namespace ThAmCo.Events.Controllers
         {
             if (ModelState.IsValid)
             {
-                
                 _context.Add(staff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
