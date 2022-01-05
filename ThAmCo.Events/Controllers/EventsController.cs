@@ -80,26 +80,34 @@ namespace ThAmCo.Events.Controllers
         {
             var getcustomerList = _context.Customers.ToList();
             ViewBag.data = getcustomerList;
+            int found = 0;
             ViewData["Email"] = new SelectList(ViewBag.data, "CustomerId", "EmailId",emailId.ToString());
             foreach (Customer C in getcustomerList)
             {
-                if(C.EmailId == emailId)
+
+                if (C.EmailId == emailId)
                 {
-                    return RedirectToAction("Create","GuestBookings");
-                }
-                else
-                { 
-                    var msg = MessageBox.Show("This Guest Id Doesn't exists in our Guest list! Would you like to create New", "Guest Not Found??", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                    if (msg == MessageBoxResult.Cancel)
-                    {
-                        return View();
-                        
-                    }
-                    return RedirectToAction("Create", "Customers");
+                    found = 1;
+                    break;
+                    
                 }
             }
-            return View();
-                
+            if (found == 1)
+            {
+                return RedirectToAction("Create", "GuestBookings");
+
+            }
+            else
+            {
+                var msg = MessageBox.Show("This Guest Id Doesn't exists in our Guest list! Would you like to create New", "Guest Not Found??", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (msg == MessageBoxResult.Cancel)
+                {
+                    return View();
+
+                }
+                return RedirectToAction("Create", "Customers");
+            }
+  
         }
 
         // GET: EventController

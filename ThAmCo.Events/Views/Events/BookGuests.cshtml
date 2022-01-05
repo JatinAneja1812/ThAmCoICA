@@ -3,25 +3,25 @@
     ViewData["Title"] = "BookGuests";
 }
 
-<div class="text-center"
-    <h1>Event Guest Booking</h1>
 
-    @using (Html.BeginForm("BookGuests", "Events", FormMethod.Post))
-    {
-        <table cellpadding="2" cellspacing="3">
-            <tr>
-                <th colspan="2" align="center">Guest Email Address</th>
-            </tr>
-            <tr>
-                <td>Enter your EmailID:</td>
-                <td>
-                    @Html.TextBoxFor(m => m.EmailId, "Enter your Email-Id", new { style = "color:red" })
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Submit" /></td>
-            </tr>
-        </table>
-    }
-     </div>
+
+@using (Html.BeginForm("BookGuests", "Events", FormMethod.Post))
+{
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h1 align="Center"> Guest Email Address</h1>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                @Html.TextBoxFor(m => m.EmailId, "Enter your Email-Id", new { style = "color:red" })
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>}
+
+

@@ -36,6 +36,7 @@ namespace ThAmCo.Events.Controllers
             var guestBooking = await _context.GuestBookings
                 .Include(g => g.Custs)
                 .Include(g => g.Events)
+
                 .FirstOrDefaultAsync(m => m.GuestBookingID == id);
             if (guestBooking == null)
             {
@@ -48,8 +49,10 @@ namespace ThAmCo.Events.Controllers
         // GET: GuestBookings/Create
         public IActionResult Create()
         {
+            //GuestBooking g = new GuestBooking();
+            //g.Custs.EmailId = Emailid;
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId");
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle");
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x=>x.IsDeleted == false), "EventId", "EventTitle");
             return View();
         }
 
@@ -63,12 +66,12 @@ namespace ThAmCo.Events.Controllers
 
             if (ModelState.IsValid)
             {
-                var isGuestAlreadyExists = _context.GuestBookings.Include(x=>x.Custs).Any(x => x.CustomerId == guestBooking.CustomerId);
+                var isGuestAlreadyExists = _context.GuestBookings.Include(x=>x.Custs).Any(x => x.EventId == guestBooking.EventId);
                 if (isGuestAlreadyExists)
                 {
                     ModelState.AddModelError(string.Empty, "User with this Id already exists");
                     ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
-                    ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", guestBooking.EventId);
+                    ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);
                     return View(guestBooking);
                 }
 
@@ -77,7 +80,7 @@ namespace ThAmCo.Events.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", guestBooking.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);
             return View(guestBooking);
         }
 
@@ -95,7 +98,7 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", guestBooking.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);
             return View(guestBooking);
         }
 
@@ -132,7 +135,7 @@ namespace ThAmCo.Events.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", guestBooking.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);
             return View(guestBooking);
         }
 
