@@ -70,14 +70,16 @@ namespace ThAmCo.Events.Controllers
 
 
         // GET: EventController
+        // This is A method us to Book a Guest into an event 
         public ActionResult BookGuests()
-        {
+        { // using HTML helper to create the view 
             return View();
         }
 
         [HttpPost]
         public ActionResult BookGuests(string emailId)
         {
+            // storing the data to book a guest using Create of GuestBookings by specifing requied details
             var getcustomerList = _context.Customers.ToList();
             ViewBag.data = getcustomerList;
             int found = 0;
@@ -98,7 +100,8 @@ namespace ThAmCo.Events.Controllers
 
             }
             else
-            {
+            { 
+                // if the customer is not present in the list
                 var msg = MessageBox.Show("This Guest Id Doesn't exists in our Guest list! Would you like to create New", "Guest Not Found??", MessageBoxButton.OKCancel, MessageBoxImage.Question);
                 if (msg == MessageBoxResult.Cancel)
                 {
@@ -111,6 +114,7 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: EventController
+        // This is A method us to Book a Venue into an event 
         public async Task<ActionResult> BookVenues(string EventTypesid, DateTime begindate, int? eventid)
         {
             List<VenueDTO> venues = new List<VenueDTO>();
@@ -120,7 +124,7 @@ namespace ThAmCo.Events.Controllers
 
            
             string[] format = {"s"};
-
+            // this is to change the format of the date   from 11/12/2021 - 2021-11-12T00:00:00  -- requirements in api/Availability
             for (int i = 0; i < format.Length; i++)
             {
                 m.BeginDate = m.Getdate.ToString(format[i], DateTimeFormatInfo.InvariantInfo);
@@ -130,7 +134,7 @@ namespace ThAmCo.Events.Controllers
                 m.EndDate = m.Getdate.AddDays(1).ToString(format[j], DateTimeFormatInfo.InvariantInfo);
 
             }
-            
+            // reding the responce api/Availability  - eventtype id  = WED and the dates 
             HttpResponseMessage response = await client.GetAsync("api/Availability?eventType="+ m.EventTypeId+ "&beginDate="+ m.BeginDate+ "&endDate="+ m.EndDate);
             if (response.IsSuccessStatusCode)
             {
@@ -145,11 +149,14 @@ namespace ThAmCo.Events.Controllers
             return View(venues.ToList());
         }
 
+
         // GET: EventController
+        // This is A method is a sequence to us to Book a venue into an event (Making final reservations)
         public async Task<ActionResult> ReserveVenue(VenueDTO rp)
         {
             ReservationPostDTO newResv = new ReservationPostDTO();
             List<VenueDTO> v = new List<VenueDTO>();
+            // updating DTO using object type parameter read from an external source
             v.Add(new VenueDTO
             {
                 Capacity = rp.Capacity,
@@ -163,7 +170,7 @@ namespace ThAmCo.Events.Controllers
             newResv.EventDate = rp.Date.Date;
             newResv.EventID = rp.EventId;
             newResv.Venue = v; 
-            newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager" && s.CheckAvailibility == true).ToListAsync();
+            newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager" && s.CheckAvailibility == true).ToListAsync();  // staff id only Manager
             if (newResv.allstaffs == null)
             {
                 var msg = MessageBox.Show("Manager is Not Available for this Event", "No Manager?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
@@ -179,6 +186,9 @@ namespace ThAmCo.Events.Controllers
             newResv.StaffId = newResv.allstaffs.FirstOrDefault().Staffid.ToString();
             return View(newResv);
         }
+
+        // POST: EventController ReserveVenue
+        // This is A method is a sequence to us to Book a venue into an event (Making final reservations)
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -226,7 +236,10 @@ namespace ThAmCo.Events.Controllers
             return View();
         }
 
+
+
         // GET: Events/Details/5
+        // this is the Main Hub of the event = Display Every details In Event = Menu, Venue and GuestList 
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -426,7 +439,8 @@ namespace ThAmCo.Events.Controllers
             return View(@event);
         }
 
-        // GET: Events/Delete/5
+        // GET:
+        // soft Deleting Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -456,6 +470,7 @@ namespace ThAmCo.Events.Controllers
 
             foreach (Staffing s in getstaffs)
             {
+                // freeing teh staffings of the event
                 s.Staff.CheckAvailibility = true;
                 _context.Staffings.Remove(s);
                 
@@ -463,10 +478,9 @@ namespace ThAmCo.Events.Controllers
             //var staffsinEvent = await _context.Staffings.FindAsync(getstaffid.FirstOrDefault().StaffId, id);
             //_context.Staffings.Remove(staffsinEvent);
             //staffsinEvent.Staff.CheckAvailibility = true;
-
-
             if (resId != null) 
             { 
+                // freeing any services
                 HttpResponseMessage response = await client.DeleteAsync("api/Reservations/" + @event.ReservationId);
                 if (response.IsSuccessStatusCode)
                 {
@@ -479,7 +493,7 @@ namespace ThAmCo.Events.Controllers
                    
                 }
             }
-            @event.IsDeleted = true;
+            @event.IsDeleted = true;  // not deleing anying permanently
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

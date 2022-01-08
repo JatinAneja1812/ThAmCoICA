@@ -31,7 +31,7 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> Index()
         {
             List<FoodBookingDTO> eventfood = new List<FoodBookingDTO>();
-
+            // reding the repose from api/foodbookings
             HttpResponseMessage response = await client.GetAsync("api/FoodBookings");
             if (response.IsSuccessStatusCode)
             {
@@ -51,7 +51,7 @@ namespace ThAmCo.Events.Controllers
         {
             List<MenusDTO> eventmenu = new List<MenusDTO>();
             FoodBookingDTO fb = new FoodBookingDTO();
-            fb.ClientReferenceId = ClientReferenceId;
+            fb.ClientReferenceId = ClientReferenceId;   // manually defining ids and number of guestes in DTO's
             fb.NumberOfGuests = NumofGuests;
             HttpResponseMessage response = await client.GetAsync("api/Menus");
             if (response.IsSuccessStatusCode)
@@ -117,7 +117,7 @@ namespace ThAmCo.Events.Controllers
             }
             if (response.IsSuccessStatusCode)
             {
-                // population FoodBookingDTO
+                // populating FoodBookingDTO
                 eventFoodBooking = await response.Content.ReadAsAsync<List<FoodBookingDTO>>();
                 eventmenufind = eventFoodBooking.Where(m => m.FoodBookingId == id).ToList();
                 fb.ClientReferenceId = eventmenufind.FirstOrDefault().ClientReferenceId;
