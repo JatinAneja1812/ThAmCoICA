@@ -94,7 +94,7 @@ namespace ThAmCo.Events.Controllers
             }
             if (found == 1)
             {
-                return RedirectToAction("Create", "GuestBookings");
+                return RedirectToAction("Create", "GuestBookings", new {emaiId = emailId.ToString() });
 
             }
             else
@@ -159,13 +159,22 @@ namespace ThAmCo.Events.Controllers
                 Date = rp.Date,
                 Code = rp.Code
             });
-            
-           
             newResv.VenueCode = rp.Code;
             newResv.EventDate = rp.Date.Date;
             newResv.EventID = rp.EventId;
             newResv.Venue = v; 
-            newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager").ToListAsync();
+            newResv.allstaffs = await _context.Staff.Where(s => s.StaffType == "Manager" && s.CheckAvailibility == true).ToListAsync();
+            if (newResv.allstaffs == null)
+            {
+                var msg = MessageBox.Show("Manager is Not Available for this Event", "No Manager?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (msg == MessageBoxResult.Cancel)
+                {
+                    return View();
+
+                }
+                return RedirectToAction("Index", "Events");
+               
+            }
             ViewData["staff"] = new SelectList(newResv.allstaffs, "Staffid", "FullName");
             newResv.StaffId = newResv.allstaffs.FirstOrDefault().Staffid.ToString();
             return View(newResv);

@@ -101,7 +101,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility,isFirstAider")] Staff staff)
         {
             if (id != staff.Staffid)
             {

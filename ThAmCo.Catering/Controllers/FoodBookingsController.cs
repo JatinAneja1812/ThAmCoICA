@@ -87,7 +87,7 @@ namespace ThAmCo.Catering.Controllers
 
         // DELETE: api/FoodBookings/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<FoodBooking>> DeleteFoodBooking(int id)
+        public async Task<ActionResult<FoodBooking>> DeleteFoodBooking(int? id)
         {
             var foodBooking = await _context.FoodBookings.FindAsync(id);
             if (foodBooking == null)

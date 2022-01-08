@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ClientReferenceId" class="control-label"></label>
-                <input asp-for="ClientReferenceId" class="form-control" />
+                @Html.TextBoxFor(m => m.ClientReferenceId)
                 <span asp-validation-for="ClientReferenceId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumberOfGuests" class="control-label"></label>
-                <input asp-for="NumberOfGuests" class="form-control" />
+                @Html.TextBoxFor(m => m.NumberOfGuests)
                 <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,7 +45,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a onclick="@("window.location.href='" + @Url.Action("Index", "Events") + "'");">Back to List</a>
 </div>
 
 @section Scripts {

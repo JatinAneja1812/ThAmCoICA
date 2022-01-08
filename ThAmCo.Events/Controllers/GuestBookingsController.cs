@@ -47,11 +47,10 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: GuestBookings/Create
-        public IActionResult Create()
+        public IActionResult Create(string emaiId)
         {
-            //GuestBooking g = new GuestBooking();
-            //g.Custs.EmailId = Emailid;
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId");
+           
+            ViewData["CustomerId"] = new SelectList(_context.Customers.Where(x=>x.EmailId == emaiId), "CustomerId", "EmailId");
             ViewData["EventId"] = new SelectList(_context.Event.Where(x=>x.IsDeleted == false), "EventId", "EventTitle");
             return View();
         }
@@ -66,7 +65,7 @@ namespace ThAmCo.Events.Controllers
 
             if (ModelState.IsValid)
             {
-                var isGuestAlreadyExists = _context.GuestBookings.Include(x=>x.Custs).Any(x => x.EventId == guestBooking.EventId);
+                var isGuestAlreadyExists = _context.GuestBookings.Include(x=>x.Custs).Any(x => x.CustomerId == guestBooking.CustomerId);
                 if (isGuestAlreadyExists)
                 {
                     ModelState.AddModelError(string.Empty, "User with this Id already exists");
@@ -77,7 +76,7 @@ namespace ThAmCo.Events.Controllers
 
                 _context.Add(guestBooking);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Events");
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
             ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);
@@ -132,7 +131,7 @@ namespace ThAmCo.Events.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Events");
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailId", guestBooking.CustomerId);
             ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle", guestBooking.EventId);

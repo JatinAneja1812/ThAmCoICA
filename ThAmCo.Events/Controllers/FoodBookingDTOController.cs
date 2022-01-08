@@ -212,7 +212,7 @@ namespace ThAmCo.Events.Controllers
         // POST: FoodBookingDTO/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
 
             List<Event> @event = await _context.Event.Where(m=>m.FoodBookingId == id).ToListAsync(); // since there is only one foodbooking id for  aparticular event
@@ -228,13 +228,16 @@ namespace ThAmCo.Events.Controllers
 
             }
             
-            HttpResponseMessage responsedelete = await client.DeleteAsync("api/FoodBookings/"+id);   // return already food booking 
+            HttpResponseMessage responsedelete = await client.DeleteAsync("api/FoodBookings/" + id);   // return already food booking 
             if (responsedelete.IsSuccessStatusCode)
             {
-                RedirectToAction("Index", "Events");
+                return RedirectToAction("Index", "Events");
             }
-
-            return BadRequest("This Menu cannot be Deleted due to Server Error!!");
+            else
+            {
+                return BadRequest("This Menu cannot be Deleted due to Server Error!!");
+            }
+            
         }
 
         private bool FoodBookingDTOExists(int id)

@@ -99,13 +99,15 @@ namespace ThAmCo.Events.Models
                 new Staff { Staffid = 11, FirstName = "Penny", LastName = "Parks", StaffType = "Event Organiser", CheckAvailibility = true, isFirstAider = true },
                 new Staff { Staffid = 12, FirstName = "Larc", LastName = "Meads", StaffType = "Caterer", CheckAvailibility = false, isFirstAider = false },
                 new Staff { Staffid = 13, FirstName = "Garry", LastName = "James", StaffType = "Waiter", CheckAvailibility = true, isFirstAider = false },
-                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer", CheckAvailibility = false, isFirstAider = true }
+                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer", CheckAvailibility = false, isFirstAider = true },
+                new Staff { Staffid = 15, FirstName = "Jason", LastName = "Millar", StaffType = "Manager", CheckAvailibility = true, isFirstAider = true },
+                new Staff { Staffid = 16, FirstName = "George", LastName = "Tyson", StaffType = "Manager", CheckAvailibility = true, isFirstAider = true }
                 );
 
             builder.Entity<Event>()
                 .HasData(
-                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ",EventDateTime = new DateTime(2021, 11, 02, 00,00,00),EventTypeId = "WED"},
-                new Event { EventId = 2, EventTitle = "Web apps ICA Final Report Discussion", EventDateTime = new DateTime(2021, 11, 05, 11, 00, 00), EventTypeId = "MET" }
+                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ",EventDateTime = new DateTime(2021, 12, 03, 10,00,00),EventTypeId = "WED"},
+                new Event { EventId = 2, EventTitle = "Web apps ICA Final Discussion", EventDateTime = new DateTime(2022, 01, 01, 11, 00, 00), EventTypeId = "MET" }
                 );
 
             builder.Entity<GuestBooking>()

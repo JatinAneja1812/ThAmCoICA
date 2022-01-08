@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20220107002819_UpdatedEventCtxt3")]
+    partial class UpdatedEventCtxt3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,6 +156,7 @@ namespace ThAmCo.Events.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -485,24 +488,6 @@ namespace ThAmCo.Events.Migrations
                             FirstName = "Kirti",
                             LastName = "Sanon",
                             StaffType = "Photographer",
-                            isFirstAider = true
-                        },
-                        new
-                        {
-                            Staffid = 15,
-                            CheckAvailibility = true,
-                            FirstName = "Jason",
-                            LastName = "Millar",
-                            StaffType = "Manager",
-                            isFirstAider = true
-                        },
-                        new
-                        {
-                            Staffid = 16,
-                            CheckAvailibility = true,
-                            FirstName = "George",
-                            LastName = "Tyson",
-                            StaffType = "Manager",
                             isFirstAider = true
                         });
                 });

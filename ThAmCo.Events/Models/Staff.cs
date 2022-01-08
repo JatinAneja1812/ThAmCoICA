@@ -29,6 +29,7 @@ namespace ThAmCo.Events.Models
 
         [Required]
         [Display(Name = "Staff's Last Name")]
+        [DisplayFormat(NullDisplayText ="--")]
         public string LastName { get; set; }
 
         
