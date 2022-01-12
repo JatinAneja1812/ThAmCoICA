@@ -29,6 +29,7 @@ namespace ThAmCo.Events.Models
 
         [Required]
         [Display(Name = "Staff's Last Name")]
+        [DisplayFormat(NullDisplayText ="--")]
         public string LastName { get; set; }
 
         
@@ -41,5 +42,8 @@ namespace ThAmCo.Events.Models
 
         [Display(Name = "Staff Availibility")]
         public bool CheckAvailibility { get; set; }
+
+        [Display(Name = "First-Aider")]
+        public bool isFirstAider { get; set; }
     }
 }

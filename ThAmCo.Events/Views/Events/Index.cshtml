@@ -1,53 +1,120 @@
-﻿@model IEnumerable<ThAmCo.Events.ViewModels.EventIndexViewModel>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TheEvent - Bootstrap Event Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/venobox/venobox.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body style="background-color:  lavender">
+    <button type="button" id="mobile-nav-toggle"><i class="fa fa-ban"></i></button>
+
+    <!--==========================
+      Header
+    ============================-->
+    <header id="header" class="">
+        <div class="container">
+
+            <div id="logo" class="pull-left">
+                <!-- Uncomment below if you prefer to use a text logo -->
+                <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                @*<a href="#intro" class="scrollto"></a>*@
+            </div>
+            <pre>
+
+
+            </pre>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu sf-js-enabled sf-arrows" style="touch-action:  cross-slide-y; color:black">
+                    <li class="menu-active" style="background-color: lightslategray"><a href="Home">Home</a></li>
+                    <li style="background-color: lightslategray"><a href="Staffs">Staffs</a></li>
+                    <li style="background-color: lightslategray"><a href="Guestbookings">GuestsInEvents</a></li>
+                    <li style="background-color: lightslategray"><a href="Staffings">StaffsInEvents</a></li>
+                    <li style="background-color: lightslategray"><a href="Customers">Our-Customers</a></li>
+                    
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </header><!-- #header -->
+</body>
+</html>
+
+@model IEnumerable<ThAmCo.Events.ViewModels.EventIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Our Event's List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventTypeTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventDateTime)
-            </th>
+<body style="background-color:aliceblue">
+    <table class="table" style="background-color:antiquewhite">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventTypeTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventDateTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventTypeTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EventDateTime)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |
+                        <a></a>
+                        <input type="button" class="btn btn-outline-primary mx-0" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
+                        <a></a>|
+                        <input type="button" class="btn btn-outline-primary mx-0" value="AvailableVenues" onclick="@("window.location.href='" + @Url.Action("BookVenues", "Events",new { EventTypesid = item.EventTypeId, begindate = item.EventDateTime, eventid = item.EventId}) + "'");" />
+                        <a></a>|
+                        <input type="button" class="btn btn-outline-primary mx-0" value="BookAMenu" onclick="@("window.location.href='" + @Url.Action("Create", "FoodBookingDTO", new { ClientReferenceId = item.EventId, NumofGuests = item.TotalGuestcount }) + "'");" />
 
+                    </td>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventTypeTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDateTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a> |  
-                <a></a>
-                <input type="button" class="btn btn-outline-primary mx-3" value="BookAGuest" onclick="@("window.location.href='" + @Url.Action("BookGuests", "Events") + "'");" />
-
-            </td>
-
-        </tr>
-}
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>

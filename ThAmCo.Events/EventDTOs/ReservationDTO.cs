@@ -19,8 +19,8 @@ namespace ThAmCo.Events.EventDTOs
         [MinLength(5), MaxLength(5)]
         public string VenueCode { get; set; }
 
-        [ForeignKey(nameof(EventDate) + ", " + nameof(VenueCode))]
-        public AvailabilityDTO Availability { get; set; }
+        //[ForeignKey(nameof(EventDate) + ", " + nameof(VenueCode))]
+        //public AvailabilityDTO Availability { get; set; }
 
         public DateTime WhenMade { get; set; }
 

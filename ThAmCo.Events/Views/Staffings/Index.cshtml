@@ -1,10 +1,71 @@
-﻿@model IEnumerable<ThAmCo.Events.Models.Staffing>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TheEvent - Bootstrap Event Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/venobox/venobox.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body style="background-color:  lavender">
+    <button type="button" id="mobile-nav-toggle"><i class="fa fa-ban"></i></button>
+
+    <!--==========================
+      Header
+    ============================-->
+    <header id="header" class="">
+        <div class="container">
+
+            <div id="logo" class="pull-left">
+                <!-- Uncomment below if you prefer to use a text logo -->
+                <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                @*<a href="#intro" class="scrollto"></a>*@
+            </div>
+            <pre>
+
+
+            </pre>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu sf-js-enabled sf-arrows" style="touch-action:  cross-slide-y; color:black">
+                    <li class="menu-active" style="background-color: lightslategray"><a href="Home">Home</a></li>
+                    <li style="background-color: lightslategray"><a href="Events">Events</a></li>
+                    <li style="background-color: lightslategray"><a href="Staffs">Staffs</a></li>
+                    <li style="background-color: lightslategray"><a href="Guestbookings">GuestsInEvents</a></li>
+                    <li style="background-color: lightslategray"><a href="Customers">Our-Customers</a></li>
+                  
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </header><!-- #header -->
+</body>
+</html>
+@model IEnumerable<ThAmCo.Events.Models.Staffing>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Staffing for the Events</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,26 +77,41 @@
                 @Html.DisplayNameFor(model => model.Event)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Staff)
+                @Html.DisplayNameFor(model => model.Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff.StaffType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff.isFirstAider)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Event.EventTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Staff.FirstName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.EventTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.EventDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staff.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Staff.StaffType)
+                </td>
+                <th>
+                    @Html.DisplayFor(model => model.FirstOrDefault().Staff.isFirstAider)
+                </th>
+
+            </tr>
+        }
     </tbody>
 </table>

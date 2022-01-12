@@ -52,8 +52,7 @@ namespace ThAmCo.Events.Controllers
             if (id.HasValue)
                 staff.EventId = id.Value;
            
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle");
-            // only the staff having availibility == true
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x=>x.IsDeleted == false), "EventId", "EventTitle");
             ViewData["StaffId"] = new SelectList(_context.Staff.Where(x=>x.CheckAvailibility == true), "Staffid", "FullName");
             return View(staff);
         }
@@ -139,7 +138,7 @@ namespace ThAmCo.Events.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Events", new { id = staffing.EventId });
             }
             ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", staffing.EventId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "Staffid", "FirstName", staffing.StaffId);

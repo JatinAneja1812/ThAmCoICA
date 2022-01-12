@@ -18,8 +18,6 @@ namespace ThAmCo.Events.Models
 
         [Display(Name = "Guests")]
         public Customer Custs { get; set; }
-
-        
         public string GuestAttendence { get; set; }
     }
 }

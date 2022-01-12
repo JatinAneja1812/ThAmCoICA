@@ -39,7 +39,8 @@ namespace ThAmCo.Events.Controllers
                      FirstName = m.FirstName,
                      LastName = m.LastName,
                      StaffType = m.StaffType,
-                     CheckAvailibility = m.CheckAvailibility  
+                     CheckAvailibility = m.CheckAvailibility,
+                     isFirstAider = m.isFirstAider
                 })
             .FirstOrDefaultAsync(m => m.Staffid == id);
 
@@ -58,7 +59,9 @@ namespace ThAmCo.Events.Controllers
         // GET: Staffs/Create
         public IActionResult Create()
         {
-            return View();
+            Staff s = new Staff();
+            s.CheckAvailibility = true;
+            return View(s);
         }
 
         // POST: Staffs/Create
@@ -66,7 +69,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Staffid,FirstName,LastName,StaffType")] Staff staff)
+        public async Task<IActionResult> Create([Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility,isFirstAider")] Staff staff)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +101,7 @@ namespace ThAmCo.Events.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("Staffid,FirstName,LastName,StaffType,CheckAvailibility,isFirstAider")] Staff staff)
         {
             if (id != staff.Staffid)
             {

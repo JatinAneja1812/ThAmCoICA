@@ -10,11 +10,21 @@ namespace ThAmCo.Events.Models
 {
     public class EventContext : DbContext
     {
+        // Context Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Event> Event { get; set; }
-         public DbSet<GuestBooking> GuestBookings { get; set; }
+        public DbSet<GuestBooking> GuestBookings { get; set; }
         public DbSet<Staffing> Staffings { get; set; }
+        public DbSet<VenueDTO> VenueDb { get; set; }
+
+        // DTOS
+        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.FoodBookingDTO> FoodBookingDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenusDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.FoodItemDTO> FoodItemDTO { get; set; }
+        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenuFoodItems { get; set; }
+
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
         {
@@ -49,6 +59,20 @@ namespace ThAmCo.Events.Models
                .WithMany()
                .HasForeignKey(n => n.StaffId);
 
+            // from the api
+            builder.Entity<MenuFoodItemsDTO>()
+                .HasKey(a => new { a.MenuId, a.FoodItemId });
+
+            builder.Entity<MenuFoodItemsDTO>()
+                 .HasOne(m => m.Menu)
+                 .WithMany()
+                 .HasForeignKey(m => m.MenuId);
+
+            builder.Entity<MenuFoodItemsDTO>()
+               .HasOne(n => n.FoodItem)
+               .WithMany()
+               .HasForeignKey(n => n.FoodItemId);
+
             // seed data
 
             builder.Entity<Customer>()
@@ -62,26 +86,28 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Staff>()
                 .HasData(
-                new Staff {  Staffid = 1, FirstName ="Paulo" , LastName = "Marks", StaffType = "Waiter" , CheckAvailibility=true},
-                new Staff { Staffid = 2, FirstName = "Mary", LastName = "Gibbs", StaffType = "Manager", CheckAvailibility = true },
-                new Staff { Staffid = 3, FirstName = "Kacy", LastName = "Holland", StaffType = "Wedding Planner", CheckAvailibility = true },
-                new Staff { Staffid = 4, FirstName = "Arvind", LastName = "Sharma", StaffType = "Bartender", CheckAvailibility = false },
-                new Staff { Staffid = 5, FirstName = "Raghav", LastName = "Kuma", StaffType = "Event Organiser", CheckAvailibility = true },
-                new Staff { Staffid = 6, FirstName = "Kyle", LastName = "Butler", StaffType = "Photographer", CheckAvailibility = false },
-                new Staff { Staffid = 7, FirstName = "Andy", LastName = "Angels", StaffType = "Caterer", CheckAvailibility = false },
-                new Staff { Staffid = 8, FirstName = "Mandy", LastName = "Green", StaffType = "DJ Music Mixer", CheckAvailibility = true },
-                new Staff { Staffid = 9, FirstName = "Sandy", LastName = "Geller", StaffType = "Waiter", CheckAvailibility = true },
-                new Staff { Staffid = 10, FirstName = "Barry", LastName = "Tribbiani", StaffType = "Waiter", CheckAvailibility = true },
-                new Staff { Staffid = 11, FirstName = "Penny", LastName = "Parks", StaffType = "Event Organiser", CheckAvailibility = true },
-                new Staff { Staffid = 12, FirstName = "Larc", LastName = "Meads", StaffType = "Caterer", CheckAvailibility = false },
-                new Staff { Staffid = 13, FirstName = "Garry", LastName = "James", StaffType = "Waiter", CheckAvailibility = true },
-                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer", CheckAvailibility = true }
+                new Staff { Staffid = 1, FirstName ="Paulo" , LastName = "Marks", StaffType = "Waiter" , CheckAvailibility= false, isFirstAider= true },
+                new Staff { Staffid = 2, FirstName = "Mary", LastName = "Gibbs", StaffType = "Manager", CheckAvailibility = false, isFirstAider = true },
+                new Staff { Staffid = 3, FirstName = "Kacy", LastName = "Holland", StaffType = "Wedding Planner", CheckAvailibility = false, isFirstAider = false },
+                new Staff { Staffid = 4, FirstName = "Arvind", LastName = "Sharma", StaffType = "Bartender", CheckAvailibility = false, isFirstAider = true },
+                new Staff { Staffid = 5, FirstName = "Raghav", LastName = "Kuma", StaffType = "Event Organiser", CheckAvailibility = true, isFirstAider = false },
+                new Staff { Staffid = 6, FirstName = "Kyle", LastName = "Butler", StaffType = "Photographer", CheckAvailibility = true, isFirstAider = false },
+                new Staff { Staffid = 7, FirstName = "Andy", LastName = "Angels", StaffType = "Caterer", CheckAvailibility = false, isFirstAider = false },
+                new Staff { Staffid = 8, FirstName = "Mandy", LastName = "Green", StaffType = "DJ Music Mixer", CheckAvailibility = false, isFirstAider = false },
+                new Staff { Staffid = 9, FirstName = "Sandy", LastName = "Geller", StaffType = "Waiter", CheckAvailibility = true, isFirstAider = false },
+                new Staff { Staffid = 10, FirstName = "Barry", LastName = "Tribbiani", StaffType = "Waiter", CheckAvailibility = true, isFirstAider = true },
+                new Staff { Staffid = 11, FirstName = "Penny", LastName = "Parks", StaffType = "Event Organiser", CheckAvailibility = true, isFirstAider = true },
+                new Staff { Staffid = 12, FirstName = "Larc", LastName = "Meads", StaffType = "Caterer", CheckAvailibility = false, isFirstAider = false },
+                new Staff { Staffid = 13, FirstName = "Garry", LastName = "James", StaffType = "Waiter", CheckAvailibility = true, isFirstAider = false },
+                new Staff { Staffid = 14, FirstName = "Kirti", LastName = "Sanon", StaffType = "Photographer", CheckAvailibility = false, isFirstAider = true },
+                new Staff { Staffid = 15, FirstName = "Jason", LastName = "Millar", StaffType = "Manager", CheckAvailibility = true, isFirstAider = true },
+                new Staff { Staffid = 16, FirstName = "George", LastName = "Tyson", StaffType = "Manager", CheckAvailibility = true, isFirstAider = true }
                 );
 
             builder.Entity<Event>()
                 .HasData(
-                new Event { EventId = 1, EventTitle = "Tannu weds mannu",EventDateTime = new DateTime(2021, 2, 10, 9,30,0),EventTypeId = "WED"},
-                new Event { EventId = 2, EventTitle = "Web apps and services ICA disscussion", EventDateTime = new DateTime(2021, 4, 5, 11, 00, 0), EventTypeId = "MET" }
+                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ",EventDateTime = new DateTime(2021, 12, 03, 10,00,00),EventTypeId = "WED"},
+                new Event { EventId = 2, EventTitle = "Web apps ICA Final Discussion", EventDateTime = new DateTime(2022, 01, 01, 11, 00, 00), EventTypeId = "MET" }
                 );
 
             builder.Entity<GuestBooking>()
@@ -106,8 +132,9 @@ namespace ThAmCo.Events.Models
 
 
         }
-        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
-       
-        
+        public DbSet<ThAmCo.Events.EventDTOs.MenuFoodItemsDTO> MenuFoodItemsDTO { get; set; }
+
+
+
     }
 }

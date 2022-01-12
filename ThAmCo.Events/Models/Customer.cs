@@ -13,7 +13,6 @@ namespace ThAmCo.Events.Models
         public Customer(string fname, string lname, string email) : this()
         {
             FirstName = fname;
-            LastName = lname;
             EmailId = email;
         }
         public Customer(string fname, string lname, string cellnumber, string email) :this()
@@ -29,8 +28,8 @@ namespace ThAmCo.Events.Models
         [Display(Name = "First Name")]
         public string FirstName  { get; set; }
 
-        [Required]
         [Display(Name = "Last Name")]
+        [DisplayFormat(NullDisplayText = "-")]
         public string LastName { get; set; }
 
         [Display(Name = "Phone Number")]
@@ -40,7 +39,7 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Email ID")]
         public string EmailId { get; set; }
 
-       
+        [Display(Name = "FullName")]
         public string FullName { get { return FirstName + " " + LastName; } }
     } 
 

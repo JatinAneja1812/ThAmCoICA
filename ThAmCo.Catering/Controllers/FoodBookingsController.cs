@@ -24,7 +24,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FoodBooking>>> GetFoodBookings()
         {
-            return await _context.FoodBookings.ToListAsync();
+            return await _context.FoodBookings.Include(m=>m.Menu).ToListAsync();
         }
 
         // GET: api/FoodBookings/5
@@ -87,7 +87,7 @@ namespace ThAmCo.Catering.Controllers
 
         // DELETE: api/FoodBookings/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<FoodBooking>> DeleteFoodBooking(int id)
+        public async Task<ActionResult<FoodBooking>> DeleteFoodBooking(int? id)
         {
             var foodBooking = await _context.FoodBookings.FindAsync(id);
             if (foodBooking == null)

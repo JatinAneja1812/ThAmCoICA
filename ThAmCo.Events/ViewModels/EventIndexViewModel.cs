@@ -27,5 +27,12 @@ namespace ThAmCo.Events.ViewModels
         [Display(Name = "Event's Date&Time")]
         public DateTime EventDateTime { get; set; }
 
+        public IEnumerable<GuestBooking> GuestBookings { get; set; }
+
+        public int TotalGuestcount { get; set; }
+
+        public int? FoodBookingId { get; set; }
+
+
     }
 }

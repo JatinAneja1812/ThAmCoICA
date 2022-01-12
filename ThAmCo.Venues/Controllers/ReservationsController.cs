@@ -15,7 +15,7 @@ namespace ThAmCo.Venues.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly VenuesDbContext _context;
-
+       
         public ReservationsController(VenuesDbContext context)
         {
             _context = context;
@@ -33,8 +33,7 @@ namespace ThAmCo.Venues.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>
-        CreateReservation([FromBody] ReservationPostDto reservation)
+        public async Task<IActionResult> CreateReservation([FromBody] ReservationPostDto reservation)
         {
             if (!ModelState.IsValid)
             {
