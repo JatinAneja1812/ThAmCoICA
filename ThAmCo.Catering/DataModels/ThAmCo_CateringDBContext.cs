@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ThAmCo.Catering.DataModels
 {
@@ -46,7 +42,7 @@ namespace ThAmCo.Catering.DataModels
             // seed data
 
             builder.Entity<FoodItem>()
-                .HasData(
+                .HasData(      ///  Data  for FoodItems
 
                 new FoodItem { FoodItemId = 1, Description = "Tacos", UnitPrice = 4.50F },
                 new FoodItem { FoodItemId = 2, Description = "Buritos", UnitPrice = 5.20F },
@@ -65,8 +61,7 @@ namespace ThAmCo.Catering.DataModels
                 );
 
             builder.Entity<Menu>()
-                .HasData(
-
+                .HasData(        // Data for Menues
                 new Menu { MenuId = 1, MenuName = "ItalianMenu" },
                 new Menu { MenuId = 2, MenuName = "MexicanMenu" },
                 new Menu { MenuId = 3, MenuName = "IndianMenu" },
@@ -76,19 +71,12 @@ namespace ThAmCo.Catering.DataModels
 
 
             builder.Entity<FoodBooking>()
-                .HasData(
-
-                new FoodBooking { FoodBookingId = 1, ClientReferenceId = 123, NumberOfGuests = 4, MenuId = 2 },
-                new FoodBooking { FoodBookingId = 2, ClientReferenceId = 145, NumberOfGuests = 3, MenuId = 1 },
-                new FoodBooking { FoodBookingId = 3, ClientReferenceId = 111, NumberOfGuests = 1, MenuId = 2 },
-                new FoodBooking { FoodBookingId = 4, ClientReferenceId = 137, NumberOfGuests = 5, MenuId = 3 },
-                new FoodBooking { FoodBookingId = 5, ClientReferenceId = 120, NumberOfGuests = 8, MenuId = 4 }
+                .HasData(         // Data for Food   -- Fake data
+                new FoodBooking { FoodBookingId = 1, ClientReferenceId = null, NumberOfGuests = 4, MenuId = 2 }
                 );
 
             builder.Entity<MenuFoodItem>()
-                .HasData(
-
-                
+                .HasData(        // Menu Id
                 new MenuFoodItem { MenuId = 1, FoodItemId = 4 },
                 new MenuFoodItem { MenuId = 1, FoodItemId = 8 },
                 new MenuFoodItem { MenuId = 1, FoodItemId = 7 },
@@ -96,8 +84,8 @@ namespace ThAmCo.Catering.DataModels
                 new MenuFoodItem { MenuId = 2, FoodItemId = 1 },
                 new MenuFoodItem { MenuId = 2, FoodItemId = 2 },
                 new MenuFoodItem { MenuId = 2, FoodItemId = 3 },
-                new MenuFoodItem { MenuId = 3, FoodItemId = 10},
-                new MenuFoodItem { MenuId = 3, FoodItemId = 13},
+                new MenuFoodItem { MenuId = 3, FoodItemId = 10 },
+                new MenuFoodItem { MenuId = 3, FoodItemId = 13 },
                 new MenuFoodItem { MenuId = 4, FoodItemId = 5 },
                 new MenuFoodItem { MenuId = 4, FoodItemId = 6 },
                 new MenuFoodItem { MenuId = 4, FoodItemId = 12 },

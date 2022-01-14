@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ThAmCo.Catering.DataModels;
 
 namespace ThAmCo.Catering.Controllers
@@ -24,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetMenuFoodItems()
         {
-            return await _context.MenuFoodItems.Include(m=>m.Menu).Include(m=>m.FoodItem).ToListAsync();
+            return await _context.MenuFoodItems.Include(m => m.Menu).Include(m => m.FoodItem).ToListAsync();
         }
 
         // POST: api/MenuFoodItems
@@ -57,7 +56,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpDelete("{id}/{id2}")]
         public async Task<ActionResult<MenuFoodItem>> DeleteMenuFoodItem(int id, int id2)
         {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id,id2);
+            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id, id2);
             if (menuFoodItem == null)
             {
                 return NotFound();

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ThAmCo.Catering.DataModels;
 
 namespace ThAmCo.Catering.Controllers
@@ -24,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FoodBooking>>> GetFoodBookings()
         {
-            return await _context.FoodBookings.Include(m=>m.Menu).ToListAsync();
+            return await _context.FoodBookings.Include(m => m.Menu).ToListAsync();
         }
 
         // GET: api/FoodBookings/5

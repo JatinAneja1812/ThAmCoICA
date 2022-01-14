@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ThAmCo.Catering.DataModels
 {
@@ -13,7 +9,7 @@ namespace ThAmCo.Catering.DataModels
         {
 
         }
-        public Menu(string name): this()
+        public Menu(string name) : this()
         {
             MenuName = name;
         }
