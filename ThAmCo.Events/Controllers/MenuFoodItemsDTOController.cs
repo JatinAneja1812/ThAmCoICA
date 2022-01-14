@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.EventDTOs;
 using ThAmCo.Events.Models;
 
@@ -21,7 +18,7 @@ namespace ThAmCo.Events.Controllers
         {
             _context = context;
             client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:44387/");
+            client.BaseAddress = new System.Uri("https://localhost:44387/"); // reading data from catering api
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
 

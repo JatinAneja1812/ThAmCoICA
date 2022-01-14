@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ThAmCo.Events.Models
 {
@@ -10,9 +6,8 @@ namespace ThAmCo.Events.Models
     {
         public Staffing()
         {
-
         }
-        public Staffing(int staffid, int eventid, Event evt, Staff sft)  
+        public Staffing(int staffid, int eventid, Event evt, Staff sft)
         {
             this.StaffId = staffid;
             this.EventId = eventid;
@@ -23,9 +18,7 @@ namespace ThAmCo.Events.Models
         public int StaffId { get; set; }
         [Required]
         public int EventId { get; set; }
-
         public Event Event { get; set; }
-
         public Staff Staff { get; set; }
 
     }

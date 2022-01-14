@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using ThAmCo.Events.EventDTOs;
 using ThAmCo.Events.Models;
 
@@ -25,7 +23,7 @@ namespace ThAmCo.Events.ViewModels
 
         // Venue Reservation 
         [DisplayFormat(NullDisplayText = "No Reservations")]
-        public string  ReservationID { get; set; }
+        public string ReservationID { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A")]
         public string Description { get; set; }
@@ -48,13 +46,10 @@ namespace ThAmCo.Events.ViewModels
         public IEnumerable<Staffing> Staffings { get; set; }
 
         // Food Booking Models
-      
+
         public int? FoodBooingId { get; set; }
-       
+
         public IEnumerable<FoodBookingDTO> FoodBookings { get; set; }
         public IEnumerable<MenuFoodItemsDTO> Foods { get; set; }
-
-
-
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ThAmCo.Events.EventDTOs
 {
@@ -18,9 +14,6 @@ namespace ThAmCo.Events.EventDTOs
         [Required]
         [MinLength(5), MaxLength(5)]
         public string VenueCode { get; set; }
-
-        //[ForeignKey(nameof(EventDate) + ", " + nameof(VenueCode))]
-        //public AvailabilityDTO Availability { get; set; }
 
         public DateTime WhenMade { get; set; }
 

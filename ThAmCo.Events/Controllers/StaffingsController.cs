@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Controllers
@@ -51,9 +50,9 @@ namespace ThAmCo.Events.Controllers
             Staffing staff = new Staffing();
             if (id.HasValue)
                 staff.EventId = id.Value;
-           
-            ViewData["EventId"] = new SelectList(_context.Event.Where(x=>x.IsDeleted == false), "EventId", "EventTitle");
-            ViewData["StaffId"] = new SelectList(_context.Staff.Where(x=>x.CheckAvailibility == true), "Staffid", "FullName");
+
+            ViewData["EventId"] = new SelectList(_context.Event.Where(x => x.IsDeleted == false), "EventId", "EventTitle");
+            ViewData["StaffId"] = new SelectList(_context.Staff.Where(x => x.CheckAvailibility == true), "Staffid", "FullName");
             return View(staff);
         }
 
@@ -73,9 +72,9 @@ namespace ThAmCo.Events.Controllers
                 {
                     staffing.Staff = sft;
                 }
-            }catch(NullReferenceException)
+            }
+            catch (NullReferenceException)
             {
-
             }
 
             if (ModelState.IsValid)
@@ -83,7 +82,7 @@ namespace ThAmCo.Events.Controllers
                 staffing.Staff.CheckAvailibility = false;
                 _context.Add(staffing);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details","Events", new { id = staffing.EventId });
+                return RedirectToAction("Details", "Events", new { id = staffing.EventId });
             }
             ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", staffing.EventId);
             ViewData["StaffId"] = new SelectList(_context.Staff, "Staffid", "FirstName", staffing.StaffId);
@@ -172,7 +171,7 @@ namespace ThAmCo.Events.Controllers
         {
             var getstaffid = await _context.Staffings.Where(x => x.StaffId == id).ToListAsync();
 
-            var staffing = await _context.Staffings.FindAsync(getstaffid.FirstOrDefault().EventId,id);
+            var staffing = await _context.Staffings.FindAsync(getstaffid.FirstOrDefault().EventId, id);
             // staffing bind only contains event id and staffid :=> staff == null
             //to change the availibilty of staff on run time
             Staff sft = _context.Staff.Where(x => x.Staffid.Equals(staffing.StaffId)).Single();
@@ -190,7 +189,7 @@ namespace ThAmCo.Events.Controllers
             staffing.Staff.CheckAvailibility = true;
             _context.Staffings.Remove(staffing);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details","Events",new { id = staffing.EventId});
+            return RedirectToAction("Details", "Events", new { id = staffing.EventId });
         }
 
         private bool StaffingExists(int id)

@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using ThAmCo.Events.EventDTOs;
 using ThAmCo.Events.Models;
 
@@ -23,7 +21,7 @@ namespace ThAmCo.Events.Controllers
         {
             _context = context;
             client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:44387/");
+            client.BaseAddress = new System.Uri("https://localhost:44387/");  // reading catering api
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
 
@@ -41,7 +39,7 @@ namespace ThAmCo.Events.Controllers
             {
                 Debug.WriteLine("Index received a bad response from the web service.");
             }
-           
+
             return View(eventfood);
         }
 
@@ -76,7 +74,7 @@ namespace ThAmCo.Events.Controllers
             List<FoodBookingDTO> newbooking = new List<FoodBookingDTO>();
             //StringContent contents = new StringContent(JsonConvert.SerializeObject(foodBookingDTO), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodBookings", foodBookingDTO);
-            
+
             if (response.IsSuccessStatusCode)
             {
                 HttpResponseMessage responseget = await client.GetAsync("api/FoodBookings");
@@ -84,10 +82,10 @@ namespace ThAmCo.Events.Controllers
 
                 // finding Key ReservationId to update with Reference of reservation
                 var @event = await _context.Event.FindAsync(foodBookingDTO.ClientReferenceId);
-                @event.FoodBookingId = newbooking.Where(m=>m.ClientReferenceId == @event.EventId).FirstOrDefault().FoodBookingId;
+                @event.FoodBookingId = newbooking.Where(m => m.ClientReferenceId == @event.EventId).FirstOrDefault().FoodBookingId;
                 _context.Update(@event);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index","Events");
+                return RedirectToAction("Index", "Events");
             }
             else
             {
@@ -103,11 +101,11 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-            List<FoodBookingDTO> eventFoodBooking= new List<FoodBookingDTO>();
+            List<FoodBookingDTO> eventFoodBooking = new List<FoodBookingDTO>();
             List<MenusDTO> eventmenu = new List<MenusDTO>();
             List<FoodBookingDTO> eventmenufind = new List<FoodBookingDTO>();
             FoodBookingDTO fb = new FoodBookingDTO();
-
+            // http response from client Catering
             HttpResponseMessage response = await client.GetAsync("api/FoodBookings");   // return already food booking 
             HttpResponseMessage responseMenu = await client.GetAsync("api/Menus"); // return all the menus available
 
@@ -150,26 +148,26 @@ namespace ThAmCo.Events.Controllers
             {
                 try
                 {
-                   // List<FoodBookingDTO> alteredMenu = new List<FoodBookingDTO>();
+                    // List<FoodBookingDTO> alteredMenu = new List<FoodBookingDTO>();
                     FoodBookingDTO records = new FoodBookingDTO();
                     //StringContent contents = new StringContent(JsonConvert.SerializeObject(foodBookingDTO), Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PutAsJsonAsync("api/FoodBookings/"+ id, foodBookingDTO);
+                    HttpResponseMessage response = await client.PutAsJsonAsync("api/FoodBookings/" + id, foodBookingDTO);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        HttpResponseMessage responseget = await client.GetAsync("api/FoodBookings/"+id);
+                        HttpResponseMessage responseget = await client.GetAsync("api/FoodBookings/" + id);
                         if (responseget.IsSuccessStatusCode)
                         {
                             string Json = await responseget.Content.ReadAsStringAsync();
                             records = JsonConvert.DeserializeObject<FoodBookingDTO>(Json);
                         }
-                        
+
                     }
-                    return RedirectToAction("Details", "Events", new { id =  records.ClientReferenceId });
+                    return RedirectToAction("Details", "Events", new { id = records.ClientReferenceId });
                 }
                 catch (NullReferenceException)
                 {
-                    
+
                 }
             }
             ViewData["MenuId"] = new SelectList(_context.Set<MenusDTO>(), "MenuId", "MenuName", foodBookingDTO.MenuId);
@@ -183,13 +181,13 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-            
+
             List<FoodBookingDTO> eventFoodBooking = new List<FoodBookingDTO>();
             List<FoodBookingDTO> eventmenufind = new List<FoodBookingDTO>();
             FoodBookingDTO fb = new FoodBookingDTO();
 
             HttpResponseMessage response = await client.GetAsync("api/FoodBookings");   // return already food booking 
-          
+
             if (response.IsSuccessStatusCode)
             {
                 // population FoodBookingDTO
@@ -214,8 +212,7 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-
-            List<Event> @event = await _context.Event.Where(m=>m.FoodBookingId == id).ToListAsync(); // since there is only one foodbooking id for  aparticular event
+            List<Event> @event = await _context.Event.Where(m => m.FoodBookingId == id).ToListAsync(); // since there is only one foodbooking id for  aparticular event
             var events = await _context.Event.FindAsync(@event.FirstOrDefault().EventId); // this will sort the event out and give me a particular vent
             events.FoodBookingId = null; // on delete Foodbooking for an event turns null
             try
@@ -225,9 +222,8 @@ namespace ThAmCo.Events.Controllers
             }
             catch (NullReferenceException)
             {
-
             }
-            
+
             HttpResponseMessage responsedelete = await client.DeleteAsync("api/FoodBookings/" + id);   // return already food booking 
             if (responsedelete.IsSuccessStatusCode)
             {
@@ -237,9 +233,8 @@ namespace ThAmCo.Events.Controllers
             {
                 return BadRequest("This Menu cannot be Deleted due to Server Error!!");
             }
-            
-        }
 
+        }
         private bool FoodBookingDTOExists(int id)
         {
             return _context.FoodBookingDTO.Any(e => e.FoodBookingId == id);

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.ViewModels
 {
-    public class StaffDetailsViewModel 
+    public class StaffDetailsViewModel
     {
         public int Staffid { get; set; }
- 
+
         [Display(Name = "Staff's First Name")]
         public string FirstName { get; set; }
 
@@ -28,8 +25,6 @@ namespace ThAmCo.Events.ViewModels
 
         [Display(Name = "First-Aider")]
         public bool isFirstAider { get; set; }
-
-        // public IEnumerable<Event> Events { get; set; }
 
         public IEnumerable<Staffing> staffings { get; set; }
     }

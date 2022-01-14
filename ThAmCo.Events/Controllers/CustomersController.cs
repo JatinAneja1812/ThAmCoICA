@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
 using ThAmCo.Events.ViewModels;
 
@@ -46,6 +45,7 @@ namespace ThAmCo.Events.Controllers
             CustomerDetailsViewModel CustomerDeatils = await _context.Customers
                 .Select(m => new CustomerDetailsViewModel
                 {
+                    // Updating ViewModel
                     CustomerId = m.CustomerId,
                     FirstName = m.FirstName,
                     LastName = m.LastName,
@@ -58,18 +58,15 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
-
+            // updating Guestbooking for the Event in the Customer Detail View.
             var Guestbooking = await _context.GuestBookings.Where(m => m.CustomerId == id).Include(y => y.Events).ToListAsync();
             CustomerDeatils.GuestBookings = Guestbooking;
-
-
             return View(CustomerDeatils);
         }
 
         // GET: Customers/Create
         public IActionResult Create()
         {
-            
             return View();
         }
 
@@ -86,7 +83,7 @@ namespace ThAmCo.Events.Controllers
                 {
                     customer.PhoneNumber = "-";
                 }
-            
+                // creating new Customers
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

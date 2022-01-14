@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ThAmCo.Events.EventDTOs
 {
@@ -13,7 +9,7 @@ namespace ThAmCo.Events.EventDTOs
         public int FoodBookingId { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A")]
-        [Display(Name ="Event Id")]
+        [Display(Name = "Event Id")]
         public int ClientReferenceId { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A")]

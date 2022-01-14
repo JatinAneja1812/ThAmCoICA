@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Models;
 using ThAmCo.Events.ViewModels;
 
@@ -35,12 +33,12 @@ namespace ThAmCo.Events.Controllers
             StaffDetailsViewModel staffdetails = await _context.Staff
                 .Select(m => new StaffDetailsViewModel
                 {
-                     Staffid = m.Staffid,
-                     FirstName = m.FirstName,
-                     LastName = m.LastName,
-                     StaffType = m.StaffType,
-                     CheckAvailibility = m.CheckAvailibility,
-                     isFirstAider = m.isFirstAider
+                    Staffid = m.Staffid,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    StaffType = m.StaffType,
+                    CheckAvailibility = m.CheckAvailibility,
+                    isFirstAider = m.isFirstAider
                 })
             .FirstOrDefaultAsync(m => m.Staffid == id);
 
@@ -49,10 +47,10 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
-            var staffings = await _context.Staffings.Where(m => m.StaffId == id).Include(s=>s.Event).Include(s=>s.Staff).ToListAsync();
+            var staffings = await _context.Staffings.Where(m => m.StaffId == id).Include(s => s.Event).Include(s => s.Staff).ToListAsync();
             staffdetails.staffings = staffings;
             // returning appropriate guest list
-            
+
             return View(staffdetails);
         }
 

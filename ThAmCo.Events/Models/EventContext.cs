@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ThAmCo.Events.Models;
 using ThAmCo.Events.EventDTOs;
 
 namespace ThAmCo.Events.Models
@@ -19,11 +15,12 @@ namespace ThAmCo.Events.Models
         public DbSet<VenueDTO> VenueDb { get; set; }
 
         // DTOS
-        public DbSet<ThAmCo.Events.EventDTOs.EventTypeDTO> EventTypeDTO { get; set; }
-        public DbSet<ThAmCo.Events.EventDTOs.FoodBookingDTO> FoodBookingDTO { get; set; }
-        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenusDTO { get; set; }
-        public DbSet<ThAmCo.Events.EventDTOs.FoodItemDTO> FoodItemDTO { get; set; }
-        public DbSet<ThAmCo.Events.EventDTOs.MenusDTO> MenuFoodItems { get; set; }
+        public DbSet<EventTypeDTO> EventTypeDTO { get; set; }
+        public DbSet<FoodBookingDTO> FoodBookingDTO { get; set; }
+        public DbSet<MenusDTO> MenusDTO { get; set; }
+        public DbSet<FoodItemDTO> FoodItemDTO { get; set; }
+        public DbSet<MenusDTO> MenuFoodItems { get; set; }
+        public DbSet<MenuFoodItemsDTO> MenuFoodItemsDTO { get; set; }
 
         public EventContext(DbContextOptions<EventContext> options)
         : base(options)
@@ -36,13 +33,13 @@ namespace ThAmCo.Events.Models
             //RelationShips
 
             builder.Entity<GuestBooking>()
-                .HasOne(m => m.Custs) 
+                .HasOne(m => m.Custs)
                 .WithMany()
                 .HasForeignKey(m => m.CustomerId);
 
             builder.Entity<GuestBooking>()
                .HasOne(m => m.Events)
-               .WithMany(g=> g.Guests)  
+               .WithMany(g => g.Guests)
                .HasForeignKey(m => m.EventId);
 
             // Composite key
@@ -77,7 +74,7 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Customer>()
                 .HasData(
-                new Customer { CustomerId = 1, FirstName = "Ollie" , LastName = "Smith" , PhoneNumber = "07293829323" , EmailId = "oliie_12star@gmail.com"  },
+                new Customer { CustomerId = 1, FirstName = "Ollie", LastName = "Smith", PhoneNumber = "07293829323", EmailId = "oliie_12star@gmail.com" },
                 new Customer { CustomerId = 2, FirstName = "Stacy", LastName = "Parks", PhoneNumber = "0724679809", EmailId = "i_amStacy20@gmail.com" },
                 new Customer { CustomerId = 3, FirstName = "Andrew", LastName = "Pool", PhoneNumber = "07908789323", EmailId = "andrewpool1992@gmail.com" },
                 new Customer { CustomerId = 4, FirstName = "Neil", LastName = "Malendez", EmailId = "n.Malendez200@gmail.com" },
@@ -86,7 +83,7 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Staff>()
                 .HasData(
-                new Staff { Staffid = 1, FirstName ="Paulo" , LastName = "Marks", StaffType = "Waiter" , CheckAvailibility= false, isFirstAider= true },
+                new Staff { Staffid = 1, FirstName = "Paulo", LastName = "Marks", StaffType = "Waiter", CheckAvailibility = false, isFirstAider = true },
                 new Staff { Staffid = 2, FirstName = "Mary", LastName = "Gibbs", StaffType = "Manager", CheckAvailibility = false, isFirstAider = true },
                 new Staff { Staffid = 3, FirstName = "Kacy", LastName = "Holland", StaffType = "Wedding Planner", CheckAvailibility = false, isFirstAider = false },
                 new Staff { Staffid = 4, FirstName = "Arvind", LastName = "Sharma", StaffType = "Bartender", CheckAvailibility = false, isFirstAider = true },
@@ -106,17 +103,17 @@ namespace ThAmCo.Events.Models
 
             builder.Entity<Event>()
                 .HasData(
-                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ",EventDateTime = new DateTime(2021, 12, 03, 10,00,00),EventTypeId = "WED"},
+                new Event { EventId = 1, EventTitle = "Jammie Weds Quinn ", EventDateTime = new DateTime(2021, 12, 03, 10, 00, 00), EventTypeId = "WED" },
                 new Event { EventId = 2, EventTitle = "Web apps ICA Final Discussion", EventDateTime = new DateTime(2022, 01, 01, 11, 00, 00), EventTypeId = "MET" }
                 );
 
             builder.Entity<GuestBooking>()
                 .HasData(
-                new GuestBooking {  GuestBookingID = 1, CustomerId = 2, EventId = 2 , GuestAttendence = "Yes"},
-                new GuestBooking { GuestBookingID = 2, CustomerId = 1, EventId = 1, GuestAttendence = "No"},
-                new GuestBooking { GuestBookingID = 3, CustomerId = 1, EventId = 2, GuestAttendence = "Yes"},
-                new GuestBooking { GuestBookingID = 4, CustomerId = 5, EventId = 1, GuestAttendence = "Yes"},
-                new GuestBooking {  GuestBookingID = 5, CustomerId = 3, EventId = 2 , GuestAttendence = "No"}
+                new GuestBooking { GuestBookingID = 1, CustomerId = 2, EventId = 2, GuestAttendence = "Yes" },
+                new GuestBooking { GuestBookingID = 2, CustomerId = 1, EventId = 1, GuestAttendence = "No" },
+                new GuestBooking { GuestBookingID = 3, CustomerId = 1, EventId = 2, GuestAttendence = "Yes" },
+                new GuestBooking { GuestBookingID = 4, CustomerId = 5, EventId = 1, GuestAttendence = "Yes" },
+                new GuestBooking { GuestBookingID = 5, CustomerId = 3, EventId = 2, GuestAttendence = "No" }
                 );
             builder.Entity<Staffing>()
                 .HasData(
@@ -132,7 +129,7 @@ namespace ThAmCo.Events.Models
 
 
         }
-        public DbSet<ThAmCo.Events.EventDTOs.MenuFoodItemsDTO> MenuFoodItemsDTO { get; set; }
+        
 
 
 

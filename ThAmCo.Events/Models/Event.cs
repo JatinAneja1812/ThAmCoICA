@@ -1,20 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using ThAmCo.Events.EventDTOs;
 
 namespace ThAmCo.Events.Models
 {
-
+    // its an important datamodel to carry Event details
     public class Event
     {
-        public Event()
-        {
-
-        }
+        public Event(){ }
         public int EventId { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true)]
@@ -23,12 +16,9 @@ namespace ThAmCo.Events.Models
         [Required]
         public string EventTitle { get; set; }
 
-        //[MinLength(3), MaxLength(3)]
         public string EventTypeId { get; set; }
 
         public string ReservationId { get; set; }
-
-        //public ICollection<VenueDTO> EventVenues { get; set; }
 
         public string Description { get; set; }
 
@@ -43,6 +33,7 @@ namespace ThAmCo.Events.Models
         public bool IsDeleted { get; set; }
 
         public int? FoodBookingId { get; set; }
+
         public ICollection<GuestBooking> Guests { get; set; }
 
     }
